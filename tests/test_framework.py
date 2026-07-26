@@ -142,6 +142,16 @@ class FrameworkFlowTests(unittest.TestCase):
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
                 self.assertIn("0 errores, 0 advertencias", result.stdout)
 
+    def test_governed_self_pilot_passes_strict_validation(self) -> None:
+        result = self.run_script(
+            CLI,
+            "validate",
+            ROOT / "pilots/humanio-ceo",
+            "--strict",
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("0 errores, 0 advertencias", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
