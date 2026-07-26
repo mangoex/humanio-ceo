@@ -1,0 +1,40 @@
+# Piloto 1: Humanio CEO
+
+## Alcance
+
+Aplicar el marco a su propio desarrollo, empaquetado e instalación como plugin.
+
+- Repositorio: `mangoex/humanio-ceo`.
+- Versión evaluada: `1.0.0`.
+- Perfil: híbrido, porque combina herramientas deterministas y skills de agentes.
+- Riesgo: R1, porque el plugin produce artefactos y cambios locales pero no despliega ni ejecuta transacciones externas por sí mismo.
+
+## Evidencia
+
+- Constitución, autoridad, riesgo, gates y definición de terminado versionados.
+- Seis skills aprobadas por el validador oficial.
+- Plugin aprobado por el validador oficial.
+- Diez pruebas automatizadas aprobadas.
+- Tres fixtures aprobados en modo estricto con cero errores y cero advertencias.
+- Workflow de GitHub Actions aprobado en los PR de fases 3 y 4.
+- Paquete ZIP de 57 archivos validado sin errores.
+- Dos empaquetados del mismo estado produjeron los mismos bytes.
+- Instalación aislada aprobó validación de plugin y `humanio doctor`.
+- Inicializador comprobado para los tres perfiles.
+- Protección contra sobrescritura comprobada.
+
+## Hallazgos
+
+- La estructura y el CLI alcanzan estabilidad 1.x.
+- CI hace verificable el gate técnico en cada pull request.
+- El empaquetado excluye fixtures y metadatos de desarrollo.
+- El repositorio no contiene una licencia.
+
+## Decisión
+
+- `READY` para uso interno y para proyectos autorizados por el propietario.
+- `CONDITIONAL` para distribución a terceros: requiere una decisión explícita de licencia.
+
+## Madurez
+
+Nivel 4, operable. Existe gobierno, validación, CI, instalación, actualización, empaquetado y evidencia. La retroalimentación de adopciones futuras permitirá avanzar hacia nivel 5.
