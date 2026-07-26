@@ -5,6 +5,7 @@ Aplicar a aplicaciones, SaaS, APIs, sistemas, integraciones y repositorios con a
 ## Artefactos mínimos
 
 ```text
+humanio.yaml
 README.md
 AGENTS.md
 docs/
