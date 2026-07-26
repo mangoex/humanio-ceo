@@ -2,6 +2,22 @@
 
 Todos los cambios relevantes del framework se documentan aquí.
 
+## [1.0.0] - 2026-07-26
+
+### Added
+
+- Versión canónica en `VERSION` y verificación de consistencia.
+- Empaquetado ZIP determinista y mínimo.
+- Instalador local seguro para marketplace personal de Codex.
+- Pruebas de empaquetado, instalación y actualización.
+- Guías de instalación, adopción, operación, madurez y releases.
+- Políticas de contribución y seguridad.
+
+### Changed
+
+- El framework alcanza estabilidad 1.0 para estructura, CLI, perfiles y manifiesto.
+- Versión del plugin y nuevas líneas base actualizadas a `1.0.0`.
+
 ## [0.3.0] - 2026-07-26
 
 ### Added
