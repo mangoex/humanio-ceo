@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -52,12 +53,26 @@ def doctor() -> int:
         "templates/common/PROJECT_MANIFEST.yaml",
         "templates/conversational/01-CONSTITUTION.md",
         "templates/software/02-PRD.md",
+        "VERSION",
     )
     missing = [path for path in required if not (ROOT / path).is_file()]
     if missing:
         print("Humanio CEO doctor: instalación incompleta.", file=sys.stderr)
         for path in missing:
             print(f"  - {path}", file=sys.stderr)
+        return 1
+    version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    plugin = json.loads(
+        (ROOT / ".codex-plugin/plugin.json").read_text(encoding="utf-8")
+    )
+    manifest = (ROOT / "templates/common/PROJECT_MANIFEST.yaml").read_text(
+        encoding="utf-8"
+    )
+    if plugin.get("version") != version or f'framework_version: "{version}"' not in manifest:
+        print(
+            "Humanio CEO doctor: VERSION, plugin.json y plantilla no coinciden.",
+            file=sys.stderr,
+        )
         return 1
     print("Humanio CEO doctor: instalación válida.")
     return 0
