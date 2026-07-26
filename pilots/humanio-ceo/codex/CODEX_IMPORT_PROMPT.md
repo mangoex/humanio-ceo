@@ -11,4 +11,4 @@ Trabaja este proyecto bajo Humanio CEO Engineering Framework.
 7. Ejecuta las pruebas aplicables y registra evidencia real.
 8. Reporta documentos, IDs, pruebas, riesgos y siguiente incremento.
 
-Primera tarea: VALIDADO EN AUTOPILOTO.
+Primera tarea: verificar el workspace en modo estricto y reportar la evidencia.
