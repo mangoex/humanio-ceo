@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mangoex/humanio-ceo/schemas/humanio.schema.json",
+  "title": "Humanio CEO project manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "framework",
+    "framework_version",
+    "project",
+    "profile",
+    "risk",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "framework": {
+      "const": "humanio-ceo"
+    },
+    "framework_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "project": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profile": {
+      "enum": ["conversational", "software", "hybrid"]
+    },
+    "risk": {
+      "enum": ["R0", "R1", "R2", "R3"]
+    },
+    "status": {
+      "enum": ["bootstrap", "active", "ready", "archived"]
+    }
+  }
+}

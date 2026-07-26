@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 INIT = ROOT / "scripts/init_project.py"
 VALIDATE = ROOT / "scripts/validate_workspace.py"
+CLI = ROOT / "scripts/humanio.py"
 
 
 class FrameworkFlowTests(unittest.TestCase):
@@ -91,6 +92,55 @@ class FrameworkFlowTests(unittest.TestCase):
             result = self.run_script(VALIDATE, "--json", workspace)
             self.assertEqual(result.returncode, 1)
             self.assertIn('"code": "FILE_MISSING"', result.stdout)
+
+    def test_cli_doctor_and_init(self) -> None:
+        doctor = self.run_script(CLI, "doctor")
+        self.assertEqual(doctor.returncode, 0, doctor.stdout + doctor.stderr)
+        with tempfile.TemporaryDirectory() as temporary:
+            workspace = Path(temporary) / "cli-project"
+            initialized = self.run_script(
+                CLI,
+                "init",
+                "--project",
+                "cli-project",
+                "--profile",
+                "conversational",
+                "--risk",
+                "R0",
+                "--output",
+                workspace,
+            )
+            self.assertEqual(
+                initialized.returncode, 0, initialized.stdout + initialized.stderr
+            )
+            validated = self.run_script(CLI, "validate", workspace)
+            self.assertEqual(validated.returncode, 0, validated.stdout + validated.stderr)
+
+    def test_validator_detects_duplicate_and_undefined_ids(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            workspace = self.initialize(Path(temporary), "software")
+            prd = workspace / "docs/02-PRD.md"
+            prd.write_text(
+                prd.read_text(encoding="utf-8")
+                + "\n### PRD-FR-001\nDuplicado.\n\nReferencia: UNKNOWN-REQ-999\n",
+                encoding="utf-8",
+            )
+            result = self.run_script(VALIDATE, "--json", workspace)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn('"code": "ID_DUPLICATE"', result.stdout)
+            self.assertIn('"code": "ID_UNDEFINED"', result.stdout)
+
+    def test_versioned_fixtures_pass_strict_validation(self) -> None:
+        for profile in ("conversational", "software", "hybrid"):
+            with self.subTest(profile=profile):
+                result = self.run_script(
+                    CLI,
+                    "validate",
+                    ROOT / "tests/fixtures" / profile,
+                    "--strict",
+                )
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertIn("0 errores, 0 advertencias", result.stdout)
 
 
 if __name__ == "__main__":

@@ -57,14 +57,14 @@ Antes de cerrar un cambio:
 Inicializar proyectos:
 
 ```bash
-python3 scripts/init_project.py --profile <conversational|software|hybrid> --risk <R0|R1|R2|R3> --project "<nombre>" --output <ruta>
+python3 scripts/humanio.py init --profile <conversational|software|hybrid> --risk <R0|R1|R2|R3> --project "<nombre>" --output <ruta>
 ```
 
 Validar:
 
 ```bash
-python3 scripts/validate_workspace.py <ruta>
-python3 scripts/validate_workspace.py --strict <ruta>
+python3 scripts/humanio.py validate <ruta>
+python3 scripts/humanio.py validate <ruta> --strict
 ```
 
 Ejecutar pruebas del framework:

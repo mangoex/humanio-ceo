@@ -1,0 +1,7 @@
+schema_version: 1
+framework: humanio-ceo
+framework_version: "0.2.0"
+project: "fixture-software"
+profile: "software"
+risk: "R2"
+status: bootstrap
