@@ -2,12 +2,13 @@
 
 ## Autoridad
 
-1. Constitución y decisiones confirmadas.
-2. PRD.
-3. SDD y ADR.
-4. BDD y TDD.
-5. Plan y tareas.
-6. Código.
+1. Constitución.
+2. Decisiones confirmadas y ADR vigentes.
+3. PRD y reglas de negocio.
+4. SDD.
+5. BDD y TDD.
+6. Plan y tareas.
+7. Código.
 
 ## Reglas
 

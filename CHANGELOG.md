@@ -2,6 +2,18 @@
 
 Todos los cambios relevantes del framework se documentan aquí.
 
+## [1.0.3] - 2026-07-26
+
+### Fixed
+
+- Los ADR vigentes se ubican por encima del PRD y del diseño derivado en toda la jerarquía.
+- La propagación exige reemplazar o revocar explícitamente un ADR incompatible antes de actualizar especificaciones subordinadas.
+- Plantillas, autopiloto, fixtures y skill de especificación aplican el mismo orden canónico.
+
+### Added
+
+- Prueba de regresión para la consistencia del orden de autoridad.
+
 ## [1.0.2] - 2026-07-26
 
 ### Fixed

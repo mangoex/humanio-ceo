@@ -14,7 +14,7 @@ Resultado esperado y comprobado: código cero, cero errores y cero advertencias.
 python3 -m unittest discover -s tests -v
 ```
 
-Resultado: once pruebas aprobadas.
+Resultado: doce pruebas aprobadas.
 
 ## Release
 
