@@ -1,0 +1,34 @@
+{
+  "name": "humanio-ceo",
+  "version": "0.1.0",
+  "description": "Marco de ingeniería para diagnosticar, especificar, desarrollar, validar y gobernar agentes y software con IA.",
+  "author": {
+    "name": "Humanio",
+    "url": "https://github.com/mangoex"
+  },
+  "repository": "https://github.com/mangoex/humanio-ceo",
+  "keywords": [
+    "agent-engineering",
+    "pbd",
+    "requirements",
+    "traceability",
+    "quality-gates"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Humanio CEO Engineering Framework",
+    "shortDescription": "Gobierna agentes y software con trazabilidad.",
+    "longDescription": "Convierte ideas, requisitos, prompts o repositorios en proyectos gobernados mediante Contexto, Ecosistema, Orquestación, PBD, especificaciones, pruebas, trazabilidad y evidencia.",
+    "developerName": "Humanio",
+    "category": "Productivity",
+    "capabilities": [
+      "Write"
+    ],
+    "websiteURL": "https://github.com/mangoex/humanio-ceo",
+    "defaultPrompt": [
+      "Estructura este proyecto con Humanio CEO.",
+      "Audita la trazabilidad de este repositorio.",
+      "Propaga este cambio con control PBD."
+    ]
+  }
+}
