@@ -10,7 +10,7 @@ Plugin y marco metodológico de Humanio para diagnosticar, especificar, desarrol
 
 ## Estado
 
-Versión `0.2.0`: línea base operativa con inicialización y validación deterministas.
+Versión `0.3.0`: línea base endurecida con CLI unificado, validación semántica, fixtures canónicos y CI.
 
 El plugin incorpora:
 
@@ -25,6 +25,10 @@ El plugin incorpora:
 - Inicializador de proyectos.
 - Validador de estructura, placeholders, riesgo, secretos y trazabilidad.
 - Pruebas automatizadas para los tres perfiles.
+- Comando unificado `humanio`.
+- Detección de IDs duplicados o indefinidos.
+- Fixtures estrictos versionados.
+- Validación automática en pull requests.
 
 ## Principio central
 
@@ -52,7 +56,7 @@ Una solución con IA está lista cuando produce un resultado útil, repetible, m
 ## Inicializar un proyecto
 
 ```bash
-python3 scripts/init_project.py \
+python3 scripts/humanio.py init \
   --profile hybrid \
   --risk R2 \
   --project "Mi proyecto" \
@@ -64,11 +68,13 @@ El inicializador inspecciona todos los destinos antes de escribir y se detiene s
 ## Validar un proyecto
 
 ```bash
-python3 scripts/validate_workspace.py /ruta/al/proyecto
-python3 scripts/validate_workspace.py --strict /ruta/al/proyecto
+python3 scripts/humanio.py validate /ruta/al/proyecto
+python3 scripts/humanio.py validate /ruta/al/proyecto --strict
 ```
 
 La validación normal permite una línea base con pendientes visibles. La validación estricta falla mientras existan `POR CONFIRMAR`, huecos de cobertura o errores.
+
+La referencia completa del comando está en [docs/CLI.md](./docs/CLI.md).
 
 ## Pruebas del framework
 
