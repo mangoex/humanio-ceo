@@ -4,7 +4,7 @@ Aplicar cuando un producto de software incorpora uno o más bots, agentes, promp
 
 ## Estructura
 
-Usar el perfil software como armazón. Añadir:
+Usar el perfil software, incluyendo `humanio.yaml`, como armazón. Añadir:
 
 ```text
 docs/pbd/

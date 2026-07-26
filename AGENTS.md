@@ -51,3 +51,24 @@ Antes de cerrar un cambio:
 3. Verificar trazabilidad.
 4. Registrar pruebas realmente ejecutadas.
 5. Reportar riesgos, pendientes y siguiente incremento.
+
+## Herramientas deterministas
+
+Inicializar proyectos:
+
+```bash
+python3 scripts/init_project.py --profile <conversational|software|hybrid> --risk <R0|R1|R2|R3> --project "<nombre>" --output <ruta>
+```
+
+Validar:
+
+```bash
+python3 scripts/validate_workspace.py <ruta>
+python3 scripts/validate_workspace.py --strict <ruta>
+```
+
+Ejecutar pruebas del framework:
+
+```bash
+python3 -m unittest discover -s tests -v
+```

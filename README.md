@@ -10,9 +10,9 @@ Plugin y marco metodológico de Humanio para diagnosticar, especificar, desarrol
 
 ## Estado
 
-Versión `0.1.0`: línea base de gobierno y estructura del plugin.
+Versión `0.2.0`: línea base operativa con inicialización y validación deterministas.
 
-Esta fase incorpora:
+El plugin incorpora:
 
 - Constitución.
 - Arquitectura.
@@ -21,9 +21,10 @@ Esta fase incorpora:
 - Niveles de riesgo.
 - Quality gates.
 - Plantillas comunes.
-- Skill coordinadora inicial.
-
-La automatización determinista, las skills especializadas y los fixtures se desarrollarán en fases posteriores.
+- Skill coordinadora y cinco skills especializadas.
+- Inicializador de proyectos.
+- Validador de estructura, placeholders, riesgo, secretos y trazabilidad.
+- Pruebas automatizadas para los tres perfiles.
 
 ## Principio central
 
@@ -47,6 +48,33 @@ Una solución con IA está lista cuando produce un resultado útil, repetible, m
 - `update`
 - `verify`
 - `compile`
+
+## Inicializar un proyecto
+
+```bash
+python3 scripts/init_project.py \
+  --profile hybrid \
+  --risk R2 \
+  --project "Mi proyecto" \
+  --output /ruta/al/proyecto
+```
+
+El inicializador inspecciona todos los destinos antes de escribir y se detiene si alguno ya existe.
+
+## Validar un proyecto
+
+```bash
+python3 scripts/validate_workspace.py /ruta/al/proyecto
+python3 scripts/validate_workspace.py --strict /ruta/al/proyecto
+```
+
+La validación normal permite una línea base con pendientes visibles. La validación estricta falla mientras existan `POR CONFIRMAR`, huecos de cobertura o errores.
+
+## Pruebas del framework
+
+```bash
+python3 -m unittest discover -s tests -v
+```
 
 ## Documentación existente
 
