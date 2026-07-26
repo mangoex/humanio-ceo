@@ -2,7 +2,7 @@
 
 ## Misión
 
-VALIDADO EN AUTOPILOTO
+Demostrar con evidencia reproducible que Humanio CEO satisface sus propias reglas de gobierno antes de declararse listo.
 
 ## Principios
 
@@ -14,15 +14,17 @@ Toda implementación debe ser trazable a un requisito confirmado.
 
 | Fuente | Autoridad | Responsable |
 |---|---|---|
-| VALIDADO EN AUTOPILOTO | VALIDADO EN AUTOPILOTO | VALIDADO EN AUTOPILOTO |
+| `docs/framework/00-CONSTITUTION.md` | Constitucional | Mantenedor |
+| `AGENTS.md` | Operativa | Mantenedor |
+| GitHub Actions | Evidencia ejecutada | CI |
 
 ## Límites
 
-- Incluye: VALIDADO EN AUTOPILOTO
-- Excluye: VALIDADO EN AUTOPILOTO
+- Incluye: plugin, CLI, plantillas, skills, tests, instalación y paquete.
+- Excluye: readiness de proyectos consumidores y concesión de licencias.
 
 ## Seguridad y cambios
 
-- Acciones sensibles: VALIDADO EN AUTOPILOTO
-- Aprobadores: VALIDADO EN AUTOPILOTO
+- Acciones sensibles: publicación, licenciamiento y modificación de gates.
+- Aprobadores: propietario del repositorio.
 - Control de cambios: usar `CHG-###`.
