@@ -34,5 +34,5 @@ Métrica: dos paquetes del mismo árbol tienen el mismo SHA-256 y una instalaci�
 ## Criterios de éxito
 
 - CI aprobado.
-- Once pruebas aprobadas.
+- Doce pruebas aprobadas.
 - Workspace de autopiloto aprobado en modo estricto.
