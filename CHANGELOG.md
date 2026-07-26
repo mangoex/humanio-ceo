@@ -2,6 +2,23 @@
 
 Todos los cambios relevantes del framework se documentan aquí.
 
+## [0.3.0] - 2026-07-26
+
+### Added
+
+- CLI unificado para diagnóstico, inicialización y validación.
+- Esquema JSON del manifiesto de proyecto.
+- Detección de tokens sin renderizar, IDs duplicados e IDs indefinidos.
+- Definición formal de terminado.
+- Fixtures estrictos versionados para los tres perfiles.
+- Workflow de GitHub Actions sin dependencias externas.
+
+### Changed
+
+- Los objetivos conversacionales usan namespace `PBD-OBJ`.
+- La Constitución conversacional separa principios y reglas de comportamiento.
+- Versión del plugin actualizada a `0.3.0`.
+
 ## [0.2.0] - 2026-07-26
 
 ### Added
