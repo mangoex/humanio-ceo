@@ -3,14 +3,16 @@
 ## Jerarquía general
 
 1. Constitución y decisiones confirmadas.
-2. PRD y reglas de negocio.
-3. Blueprint, Behavior Specs y SDD.
-4. ADR vigentes.
+2. ADR vigentes y demás decisiones confirmadas.
+3. PRD y reglas de negocio.
+4. Blueprint, Behavior Specs y SDD.
 5. BDD, TDD y evaluaciones.
 6. Roadmap y tareas.
 7. Prompt o código.
 
 Una capa inferior no puede redefinir silenciosamente una capa superior.
+
+Un ADR vigente tiene autoridad como decisión confirmada. Un ADR propuesto no gobierna todavía y un ADR reemplazado o revocado deja de gobernar. Cuando un requisito nuevo contradiga un ADR vigente, primero se debe reemplazar o revocar explícitamente el ADR y después propagar el cambio.
 
 ## Fuentes canónicas operativas
 
@@ -33,12 +35,13 @@ El prompt conserva la instrucción de consulta y el comportamiento de contingenc
 2. Formular el cambio como comportamiento observable.
 3. Identificar fuente de autoridad e IDs afectados.
 4. Resolver contradicciones.
-5. Actualizar requisitos o reglas.
-6. Actualizar diseño.
-7. Actualizar BDD, TDD o evaluaciones.
-8. Implementar el cambio mínimo.
-9. Ejecutar pruebas afectadas y regresiones críticas.
-10. Actualizar trazabilidad, evidencia y changelog.
+5. Actualizar o reemplazar la decisión o ADR aplicable.
+6. Actualizar requisitos o reglas.
+7. Actualizar diseño.
+8. Actualizar BDD, TDD o evaluaciones.
+9. Implementar el cambio mínimo.
+10. Ejecutar pruebas afectadas y regresiones críticas.
+11. Actualizar trazabilidad, evidencia y changelog.
 
 ## Identificadores
 
