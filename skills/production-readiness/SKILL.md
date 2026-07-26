@@ -12,11 +12,12 @@ Emitir una recomendación verificable de salida, salida condicionada o bloqueo.
 1. Confirmar perfil, riesgo y alcance de la liberación.
 2. Leer `../../docs/framework/04-QUALITY-GATES.md`.
 3. Ejecutar el validador estricto y las pruebas disponibles.
-4. Revisar seguridad, privacidad, permisos y secretos.
-5. Revisar observabilidad, alertas, soporte y responsables.
-6. Verificar migración, reversión, recuperación e idempotencia aplicables.
-7. Comprobar aprobaciones humanas requeridas.
-8. Registrar evidencia con fecha, comando, resultado y responsable.
+4. Ejecutar los casos de readiness con `python3 scripts/evaluate_readiness.py`.
+5. Revisar seguridad, privacidad, permisos y secretos.
+6. Revisar observabilidad, alertas, soporte y responsables.
+7. Verificar migración, reversión, recuperación e idempotencia aplicables.
+8. Comprobar aprobaciones humanas requeridas.
+9. Registrar evidencia con fecha, comando, resultado y responsable.
 
 ## Decisión
 

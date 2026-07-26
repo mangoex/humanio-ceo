@@ -13,6 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE = ROOT / "scripts/package_plugin.py"
 INSTALL = ROOT / "scripts/install_plugin.py"
+VERIFY_EVIDENCE = ROOT / "scripts/verify_official_evidence.py"
 
 
 class ReleaseTests(unittest.TestCase):
@@ -24,7 +25,8 @@ class ReleaseTests(unittest.TestCase):
             check=False,
         )
 
-    def test_package_is_deterministic_and_minimal(self) -> None:
+    def test_package_is_deterministic_and_auditable(self) -> None:
+        """TDD-TC-004: package bytes are reproducible and include audit inputs."""
         with tempfile.TemporaryDirectory() as temporary:
             first = Path(temporary) / "first.zip"
             second = Path(temporary) / "second.zip"
@@ -44,10 +46,13 @@ class ReleaseTests(unittest.TestCase):
             self.assertIn(
                 "humanio-ceo/skills/humanio-project-engineer/SKILL.md", names
             )
-            self.assertFalse(any("/tests/" in name for name in names))
+            self.assertIn("humanio-ceo/pilots/humanio-ceo/EVIDENCE.md", names)
+            self.assertIn("humanio-ceo/tests/evals/readiness-cases.json", names)
+            self.assertIn("humanio-ceo/.github/workflows/validate.yml", names)
             self.assertFalse(any("__pycache__" in name for name in names))
 
     def test_local_installer_registers_personal_marketplace(self) -> None:
+        """TDD-TC-005: install and update an isolated personal marketplace."""
         with tempfile.TemporaryDirectory() as temporary:
             marketplace_root = Path(temporary) / "plugins-root"
             result = self.run_script(
@@ -72,6 +77,11 @@ class ReleaseTests(unittest.TestCase):
                 INSTALL, "--marketplace-root", marketplace_root, "--update"
             )
             self.assertEqual(updated.returncode, 0, updated.stdout + updated.stderr)
+
+    def test_official_evidence_matches_current_artifacts(self) -> None:
+        result = self.run_script(VERIFY_EVIDENCE)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Evidencia oficial vigente", result.stdout)
 
 
 if __name__ == "__main__":

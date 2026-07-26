@@ -29,7 +29,7 @@ Humanio CEO usa SemVer:
 python3 scripts/package_plugin.py
 ```
 
-El archivo resultante excluye pruebas, fixtures, cachés y metadatos Git. Dos ejecuciones sobre el mismo contenido producen los mismos bytes.
+El archivo resultante incluye plugin, workspace de autopiloto, evidencia, pruebas, casos de evaluación y workflow. Excluye cachés y metadatos Git. Dos ejecuciones sobre el mismo contenido producen los mismos bytes.
 
 ## Compatibilidad
 

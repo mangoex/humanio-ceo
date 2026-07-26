@@ -2,6 +2,21 @@
 
 Todos los cambios relevantes del framework se documentan aquí.
 
+## [1.0.4] - 2026-07-26
+
+### Fixed
+
+- La aprobación de validadores oficiales queda ligada por SHA-256 a los artefactos evaluados y verificada por CI.
+- Requisitos funcionales y no funcionales apuntan a pruebas ejecutables específicas.
+- `PBD-T-001` cuenta con una evaluación determinista de cinco casos.
+- El paquete incluye el workspace, la evidencia y los insumos necesarios para auditar el release.
+
+### Added
+
+- Verificador de evidencia oficial.
+- Evaluador determinista de readiness.
+- Casos de evaluación y pruebas de regresión asociadas.
+
 ## [1.0.3] - 2026-07-26
 
 ### Fixed
