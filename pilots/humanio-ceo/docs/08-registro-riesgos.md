@@ -3,17 +3,17 @@
 ## Clasificación
 
 - Nivel: R1
-- Justificación: VALIDADO EN AUTOPILOTO
-- Responsable: VALIDADO EN AUTOPILOTO
+- Justificación: herramienta local sin despliegue o transacciones externas automáticas.
+- Responsable: mantenedor.
 
 ## Riesgos
 
-| ID | Riesgo | Probabilidad | Impacto | Mitigación | Dueño | Estado |
+| ID | Riesgo | Probabilidad | Impacto | Control | Evidencia | Estado |
 |---|---|---|---|---|---|---|
-| RSK-001 | VALIDADO EN AUTOPILOTO | VALIDADO EN AUTOPILOTO | VALIDADO EN AUTOPILOTO | VALIDADO EN AUTOPILOTO | VALIDADO EN AUTOPILOTO | open |
+| RSK-001 | Declarar readiness usando solo fixtures | media | alto | Workspace gobernado y gate estricto en CI | `EVIDENCE.md` | mitigated |
 
 ## Riesgo residual
 
-- Riesgos aceptados: VALIDADO EN AUTOPILOTO
-- Aprobador: VALIDADO EN AUTOPILOTO
-- Condiciones: VALIDADO EN AUTOPILOTO
+- Riesgos aceptados: incompatibilidad futura dentro de la serie 1.x.
+- Aprobador: propietario del repositorio.
+- Condiciones: SemVer, changelog y pruebas de regresión.
