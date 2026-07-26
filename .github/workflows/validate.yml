@@ -22,3 +22,5 @@ jobs:
         run: python3 scripts/humanio.py doctor
       - name: Test framework
         run: python3 -m unittest discover -s tests -v
+      - name: Validate governed self-pilot
+        run: python3 scripts/humanio.py validate pilots/humanio-ceo --strict

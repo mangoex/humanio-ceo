@@ -2,6 +2,18 @@
 
 Todos los cambios relevantes del framework se documentan aquí.
 
+## [1.0.2] - 2026-07-26
+
+### Fixed
+
+- El autopiloto usa ahora un workspace híbrido gobernado que pasa validación estricta.
+- La evidencia registra el conteo real del paquete construido desde el repositorio completo.
+- El README muestra la misma versión que el manifest, la plantilla y `VERSION`.
+
+### Added
+
+- Gate de CI y prueba de regresión para el workspace de autopiloto.
+
 ## [1.0.1] - 2026-07-26
 
 ### Added
