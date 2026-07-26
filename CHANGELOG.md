@@ -2,6 +2,18 @@
 
 Todos los cambios relevantes del framework se documentan aquí.
 
+## [1.0.1] - 2026-07-26
+
+### Added
+
+- Evidencia del piloto de release sobre `humanio-ceo`.
+- Auditoría de adopción, sin modificaciones, sobre `humanio-os`.
+- Registro explícito de límites y decisiones pendientes de distribución.
+
+### Changed
+
+- Se completa la evidencia constitucional de aplicación en dos proyectos reales.
+
 ## [1.0.0] - 2026-07-26
 
 ### Added
