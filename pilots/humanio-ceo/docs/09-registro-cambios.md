@@ -1,11 +1,9 @@
 # Registro de cambios
 
-| ID | Fecha | Cambio observable | Autoridad afectada | Pruebas | Estado |
-|---|---|---|---|---|---|
-| CHG-001 | VALIDADO EN AUTOPILOTO | Línea base inicial | Constitución | VALIDADO EN AUTOPILOTO | proposed |
+| ID | Fecha | Cambio | Fuente | Artefactos afectados | Aprobador | Estado |
+|---|---|---|---|---|---|---|
+| CHG-001 | 2026-07-26 | Añadir autopiloto estricto | Revisión Codex | Piloto, CI, tests y evidencia | Propietario | approved |
 
-## Reglas
+## Regla
 
-- Registrar especificaciones e IDs afectados.
-- Actualizar pruebas antes del prompt o código.
-- Adjuntar evidencia real antes de marcar `approved`.
+Actualizar primero la fuente de autoridad; después especificaciones, escenarios, pruebas, implementación y trazabilidad.
