@@ -14,6 +14,11 @@ from pathlib import Path
 PROFILES = ("conversational", "software", "hybrid")
 RISKS = ("R0", "R1", "R2", "R3")
 SCAN_SUFFIXES = {".md", ".yaml", ".yml", ".json", ".txt", ".feature"}
+ID_PATTERN = re.compile(r"\b[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+-\d{3}\b")
+DEFINITION_PATTERNS = (
+    re.compile(r"^#{1,6}\s+([A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+-\d{3})\b", re.MULTILINE),
+    re.compile(r"^-\s+`([A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+-\d{3})`:", re.MULTILINE),
+)
 
 COMMON_REQUIRED = (
     "humanio.yaml",
@@ -128,6 +133,13 @@ def scan_files(root: Path) -> list[Path]:
     )
 
 
+def find_definitions(content: str) -> list[str]:
+    definitions: list[str] = []
+    for pattern in DEFINITION_PATTERNS:
+        definitions.extend(pattern.findall(content))
+    return definitions
+
+
 def relative(root: Path, path: Path) -> str:
     return path.relative_to(root).as_posix()
 
@@ -221,6 +233,25 @@ def validate(root: Path, strict: bool) -> tuple[dict[str, str], list[Finding]]:
                 "El campo framework debe ser humanio-ceo.",
             )
         )
+    if manifest.get("schema_version") != "1":
+        findings.append(
+            Finding(
+                "error",
+                "SCHEMA_UNSUPPORTED",
+                "humanio.yaml",
+                "Esta versión solo admite schema_version 1.",
+            )
+        )
+    framework_version = manifest.get("framework_version", "")
+    if framework_version and not re.fullmatch(r"\d+\.\d+\.\d+", framework_version):
+        findings.append(
+            Finding(
+                "error",
+                "VERSION_INVALID",
+                "humanio.yaml",
+                "framework_version debe usar SemVer, por ejemplo 0.3.0.",
+            )
+        )
 
     if profile in PROFILES:
         for required in required_paths(profile):
@@ -234,6 +265,8 @@ def validate(root: Path, strict: bool) -> tuple[dict[str, str], list[Finding]]:
                     )
                 )
 
+    all_identifiers: set[str] = set()
+    definition_locations: dict[str, list[str]] = {}
     for path in scan_files(root):
         try:
             content = path.read_text(encoding="utf-8")
@@ -252,6 +285,20 @@ def validate(root: Path, strict: bool) -> tuple[dict[str, str], list[Finding]]:
                     f"Contiene {unresolved} placeholder(s) sin resolver.",
                 )
             )
+        template_tokens = sorted(set(re.findall(r"\{\{[A-Z0-9_]+\}\}", content)))
+        if template_tokens:
+            findings.append(
+                Finding(
+                    "error",
+                    "TEMPLATE_TOKEN",
+                    relative(root, path),
+                    f"Contiene tokens sin renderizar: {', '.join(template_tokens)}.",
+                )
+            )
+        identifiers = set(ID_PATTERN.findall(content))
+        all_identifiers.update(identifiers)
+        for identifier in find_definitions(content):
+            definition_locations.setdefault(identifier, []).append(relative(root, path))
         for pattern in SECRET_PATTERNS:
             if pattern.search(content):
                 findings.append(
@@ -263,6 +310,27 @@ def validate(root: Path, strict: bool) -> tuple[dict[str, str], list[Finding]]:
                     )
                 )
                 break
+
+    for identifier, locations in sorted(definition_locations.items()):
+        if len(locations) > 1:
+            findings.append(
+                Finding(
+                    "error",
+                    "ID_DUPLICATE",
+                    ", ".join(locations),
+                    f"El ID {identifier} está definido más de una vez.",
+                )
+            )
+    defined_identifiers = set(definition_locations)
+    for identifier in sorted(all_identifiers - defined_identifiers):
+        findings.append(
+            Finding(
+                "error",
+                "ID_UNDEFINED",
+                ".",
+                f"El ID {identifier} se referencia pero no tiene definición.",
+            )
+        )
 
     if profile in ("conversational", "hybrid"):
         validate_traceability(root, "conversational", findings)
