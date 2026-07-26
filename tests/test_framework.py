@@ -152,6 +152,32 @@ class FrameworkFlowTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("0 errores, 0 advertencias", result.stdout)
 
+    def test_authority_order_is_consistent(self) -> None:
+        authority = (ROOT / "docs/framework/02-AUTHORITY-MODEL.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertLess(
+            authority.index("ADR vigentes y demás decisiones confirmadas"),
+            authority.index("PRD y reglas de negocio"),
+        )
+        agents_paths = (
+            ROOT / "templates/software/AGENTS.md",
+            ROOT / "pilots/humanio-ceo/AGENTS.md",
+            ROOT / "tests/fixtures/software/AGENTS.md",
+            ROOT / "tests/fixtures/hybrid/AGENTS.md",
+        )
+        for path in agents_paths:
+            with self.subTest(path=path):
+                content = path.read_text(encoding="utf-8")
+                self.assertLess(
+                    content.index("Decisiones confirmadas y ADR vigentes"),
+                    content.index("PRD y reglas de negocio"),
+                )
+                self.assertLess(
+                    content.index("PRD y reglas de negocio"),
+                    content.index("SDD"),
+                )
+
 
 if __name__ == "__main__":
     unittest.main()
