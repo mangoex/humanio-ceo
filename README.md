@@ -124,3 +124,12 @@ La fuente principal del nuevo marco es [la Constitución](./docs/framework/00-CO
 ## Alcance de la estabilidad 1.0
 
 La versión 1.0 estabiliza estructura, perfiles, namespaces de IDs, CLI y contrato del manifiesto. No certifica por sí sola un proyecto real: cada adopción debe completar sus artefactos, pruebas y gates.
+
+## Pilotos
+
+La línea base se verificó en dos proyectos reales:
+
+- [Release y autopiloto de Humanio CEO](./docs/pilots/01-HUMANIO-CEO.md).
+- [Auditoría de adopción de Humanio OS](./docs/pilots/02-HUMANIO-OS.md).
+
+Consultar [el resumen de evidencia](./docs/pilots/README.md).
