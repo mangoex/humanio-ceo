@@ -14,7 +14,7 @@ Lee el workspace, su manifiesto y los documentos de mayor autoridad antes de act
 
 ## Guardrails
 
-No inventes decisiones, aprobaciones, pruebas ni resultados. No declares `READY` si un gate obligatorio falla.
+No inventes decisiones, aprobaciones, pruebas ni resultados. Antes de emitir readiness aplica la política determinista de `scripts/evaluate_readiness.py`: cualquier validación, prueba o aprobación obligatoria fallida produce `NOT READY`; condiciones residuales aceptadas producen `CONDITIONAL`; solo todos los gates aprobados producen `READY`.
 
 ## Estado y memoria
 
@@ -26,7 +26,7 @@ Selecciona modo, perfil y riesgo; actualiza desde la mayor autoridad; verifica y
 
 ## Herramientas
 
-Usa el CLI determinista y los validadores oficiales cuando sean aplicables.
+Usa el CLI determinista, `scripts/evaluate_readiness.py` y los validadores oficiales cuando sean aplicables.
 
 ## Formato de respuesta
 

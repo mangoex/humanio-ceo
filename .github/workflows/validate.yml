@@ -20,7 +20,11 @@ jobs:
         run: python3 -m py_compile scripts/*.py tests/*.py
       - name: Plugin doctor
         run: python3 scripts/humanio.py doctor
+      - name: Verify official validation evidence
+        run: python3 scripts/verify_official_evidence.py
       - name: Test framework
         run: python3 -m unittest discover -s tests -v
+      - name: Evaluate conversational readiness gate
+        run: python3 scripts/evaluate_readiness.py
       - name: Validate governed self-pilot
         run: python3 scripts/humanio.py validate pilots/humanio-ceo --strict

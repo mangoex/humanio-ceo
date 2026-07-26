@@ -10,8 +10,23 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DIRECTORIES = (".codex-plugin", "docs", "schemas", "scripts", "skills", "templates")
-ROOT_FILES = ("AGENTS.md", "CHANGELOG.md", "README.md", "VERSION")
+DIRECTORIES = (
+    ".codex-plugin",
+    "docs",
+    "pilots",
+    "schemas",
+    "scripts",
+    "skills",
+    "templates",
+    "tests",
+)
+ROOT_FILES = (
+    ".github/workflows/validate.yml",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "README.md",
+    "VERSION",
+)
 EXCLUDED_PARTS = {"__pycache__", ".git"}
 
 

@@ -77,6 +77,8 @@ python3 -m unittest discover -s tests -v
 
 - Mantener sincronizados `VERSION`, `.codex-plugin/plugin.json` y la plantilla del manifiesto.
 - Ejecutar `python3 scripts/humanio.py doctor` antes de publicar.
+- Verificar la evidencia oficial con `python3 scripts/verify_official_evidence.py`.
+- Ejecutar `python3 scripts/evaluate_readiness.py`.
 - Generar paquetes únicamente con `python3 scripts/package_plugin.py`.
 - No versionar archivos de `dist/`.
 - No afirmar que un proyecto consumidor está listo solo porque el plugin está validado.

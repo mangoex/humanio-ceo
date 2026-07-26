@@ -1,0 +1,42 @@
+[
+  {
+    "name": "strict validation failed",
+    "strict_exit_code": 1,
+    "tests_passed": true,
+    "required_approvals": true,
+    "accepted_conditions": false,
+    "expected": "NOT READY"
+  },
+  {
+    "name": "tests not executed",
+    "strict_exit_code": 0,
+    "tests_passed": false,
+    "required_approvals": true,
+    "accepted_conditions": false,
+    "expected": "NOT READY"
+  },
+  {
+    "name": "approval missing",
+    "strict_exit_code": 0,
+    "tests_passed": true,
+    "required_approvals": false,
+    "accepted_conditions": false,
+    "expected": "NOT READY"
+  },
+  {
+    "name": "accepted residual condition",
+    "strict_exit_code": 0,
+    "tests_passed": true,
+    "required_approvals": true,
+    "accepted_conditions": true,
+    "expected": "CONDITIONAL"
+  },
+  {
+    "name": "all gates passed",
+    "strict_exit_code": 0,
+    "tests_passed": true,
+    "required_approvals": true,
+    "accepted_conditions": false,
+    "expected": "READY"
+  }
+]

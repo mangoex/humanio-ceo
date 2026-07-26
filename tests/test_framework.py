@@ -39,6 +39,7 @@ class FrameworkFlowTests(unittest.TestCase):
         return workspace
 
     def test_each_profile_initializes_and_passes_normal_validation(self) -> None:
+        """TDD-TC-002: initialize and validate every supported profile."""
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             for profile in ("conversational", "software", "hybrid"):
@@ -65,6 +66,7 @@ class FrameworkFlowTests(unittest.TestCase):
             self.assertIn("[PLACEHOLDER]", result.stdout)
 
     def test_initializer_never_overwrites_existing_files(self) -> None:
+        """TDD-TC-003: cancel initialization when any target collides."""
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             workspace = self.initialize(root, "conversational")
@@ -143,6 +145,7 @@ class FrameworkFlowTests(unittest.TestCase):
                 self.assertIn("0 errores, 0 advertencias", result.stdout)
 
     def test_governed_self_pilot_passes_strict_validation(self) -> None:
+        """TDD-TC-001: the governed self-pilot passes strict validation."""
         result = self.run_script(
             CLI,
             "validate",
