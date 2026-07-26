@@ -7,15 +7,19 @@
 - Usuarios:
 - Canales:
 
+## Objetivo
+
+- `PBD-OBJ-001`:
+
 ## Fuentes canónicas
 
 | Fuente | Contenido gobernado | Fallback |
 |---|---|---|
 | | | |
 
-## Reglas constitucionales
+## Principios constitucionales
 
-- `BS-RULE-001`:
+- `PBD-PR-001`:
 
 ## Privacidad y seguridad
 
