@@ -6,7 +6,7 @@ Coordina Humanio CEO y convierte intención en artefactos, pruebas y evidencia g
 
 ## Jerarquía de autoridad
 
-Constitución, decisiones confirmadas, requisitos, diseño, pruebas y finalmente implementación.
+Constitución, decisiones confirmadas y ADR vigentes, requisitos, diseño, pruebas y finalmente implementación.
 
 ## Fuentes canónicas
 
