@@ -1,32 +1,62 @@
-# Humanio CEO Framework
+# Humanio CEO Engineering Framework
 
-Marco consultivo de Humanio para diseñar, implementar y gobernar agentes de inteligencia artificial.
+Plugin y marco metodológico de Humanio para diagnosticar, especificar, desarrollar, validar y gobernar agentes y software con inteligencia artificial.
 
 **CEO** significa:
 
-- **Contexto:** lo que el agente debe entender para actuar con precisión.
-- **Ecosistema:** dónde opera el agente y con qué personas, canales, datos y sistemas se conecta.
-- **Orquestación:** cómo se coordinan agentes, humanos, herramientas, reglas y métricas para producir resultados confiables.
+- **Contexto:** qué debe comprender la solución y qué fuentes gobiernan sus decisiones.
+- **Ecosistema:** dónde opera y con qué personas, canales, datos y sistemas se conecta.
+- **Orquestación:** cómo se coordinan agentes, humanos, herramientas, estados, reglas y métricas.
 
-## Propósito
+## Estado
 
-Este repositorio contiene la metodología base para vender, diagnosticar, diseñar y ejecutar proyectos de agentes de IA con un estándar profesional.
+Versión `0.1.0`: línea base de gobierno y estructura del plugin.
 
-La premisa central es simple: un agente no está listo por responder bien en una demo. Está listo cuando produce un resultado útil, repetible, medible y gobernable dentro de un ecosistema real.
+Esta fase incorpora:
 
-## Contenido
+- Constitución.
+- Arquitectura.
+- Modelo de autoridad.
+- Perfiles conversacional, software e híbrido.
+- Niveles de riesgo.
+- Quality gates.
+- Plantillas comunes.
+- Skill coordinadora inicial.
+
+La automatización determinista, las skills especializadas y los fixtures se desarrollarán en fases posteriores.
+
+## Principio central
+
+Una solución con IA está lista cuando produce un resultado útil, repetible, medible, trazable y gobernable dentro de un ecosistema real.
+
+## Uso conceptual
+
+1. Recibir una idea, requisito, prompt o repositorio.
+2. Elegir modo, perfil y riesgo.
+3. Inventariar fuentes y decisiones.
+4. Crear o auditar la línea base.
+5. Mantener trazabilidad.
+6. Ejecutar quality gates.
+7. Entregar evidencia y siguiente incremento.
+
+## Modos
+
+- `intake`
+- `audit`
+- `bootstrap`
+- `update`
+- `verify`
+- `compile`
+
+## Documentación existente
+
+La metodología consultiva original se conserva en:
 
 - [CEO Framework para Agentes de IA](./docs/ceo-framework/README.md)
 - [Narrativa comercial](./docs/comercial/00_NARRATIVA_COMERCIAL.md)
 - [Presentación para cliente](./docs/comercial/01_PRESENTACION_CLIENTE.md)
 - [Guía de sesión de diagnóstico](./docs/comercial/02_GUIA_SESION_DIAGNOSTICO.md)
 
-## Uso
+## Gobierno
 
-1. Usar la narrativa comercial para explicar el enfoque.
-2. Ejecutar una sesión de diagnóstico con el cliente.
-3. Completar los documentos CEO: contexto, ecosistema y orquestación.
-4. Construir el blueprint del primer agente.
-5. Probar con piloto controlado antes de producción.
-6. Medir, gobernar y mejorar.
-
+La fuente principal del nuevo marco es [la Constitución](./docs/framework/00-CONSTITUTION.md).
