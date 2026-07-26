@@ -1,7 +1,7 @@
 # Constitución de Humanio CEO Engineering Framework
 
 **Versión:** 0.1.0  
-**Estado:** Aprobada como línea base de la fase 1  
+**Estado:** Propuesta para revisión en la fase 1  
 **Fecha:** 2026-07-26
 
 ## 1. Identidad
