@@ -22,6 +22,23 @@ Transformar intención informal en una cadena verificable de decisiones, artefac
 - Software: leer `../../docs/profiles/software.md`.
 - Híbrido: leer `../../docs/profiles/hybrid.md`.
 
+## Delegar por especialidad
+
+- Descubrimiento, intake y clasificación: usar `ceo-discovery`.
+- Constitución, autoridad y cambios PBD: usar `pbd-governance`.
+- PRD, SDD, BDD y TDD: usar `software-specification`.
+- Cobertura e IDs: usar `traceability-auditor`.
+- Gates y salida a producción: usar `production-readiness`.
+
+Mantener esta skill como coordinadora. Usar directamente una skill especializada cuando el alcance ya esté delimitado.
+
+## Automatización determinista
+
+- Inicializar una línea base con `python3 scripts/init_project.py`.
+- Validar un workspace con `python3 scripts/validate_workspace.py`.
+- Usar `--strict` antes de solicitar aprobación o declarar readiness.
+- No editar sobre archivos existentes sin autorización explícita.
+
 ## Clasificar riesgo
 
 Leer `../../docs/framework/03-RISK-MODEL.md`. Aplicar el nivel más alto activado por un factor crítico; no usar solo promedios.
