@@ -72,3 +72,11 @@ Ejecutar pruebas del framework:
 ```bash
 python3 -m unittest discover -s tests -v
 ```
+
+## Disciplina de release
+
+- Mantener sincronizados `VERSION`, `.codex-plugin/plugin.json` y la plantilla del manifiesto.
+- Ejecutar `python3 scripts/humanio.py doctor` antes de publicar.
+- Generar paquetes únicamente con `python3 scripts/package_plugin.py`.
+- No versionar archivos de `dist/`.
+- No afirmar que un proyecto consumidor está listo solo porque el plugin está validado.

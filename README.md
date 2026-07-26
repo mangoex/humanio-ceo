@@ -10,7 +10,7 @@ Plugin y marco metodológico de Humanio para diagnosticar, especificar, desarrol
 
 ## Estado
 
-Versión `0.3.0`: línea base endurecida con CLI unificado, validación semántica, fixtures canónicos y CI.
+Versión `1.0.0`: marco estable, instalable, verificable y reutilizable.
 
 El plugin incorpora:
 
@@ -29,6 +29,9 @@ El plugin incorpora:
 - Detección de IDs duplicados o indefinidos.
 - Fixtures estrictos versionados.
 - Validación automática en pull requests.
+- Empaquetado reproducible.
+- Instalador seguro para marketplace personal de Codex.
+- Guías de adopción, operación y releases.
 
 ## Principio central
 
@@ -76,6 +79,29 @@ La validación normal permite una línea base con pendientes visibles. La valida
 
 La referencia completa del comando está en [docs/CLI.md](./docs/CLI.md).
 
+## Instalar como plugin de Codex
+
+```bash
+python3 scripts/install_plugin.py
+codex plugin add humanio-ceo@personal
+```
+
+La instalación se copia al marketplace personal sin modificar este repositorio. Para actualizar una instalación existente:
+
+```bash
+python3 scripts/install_plugin.py --update
+codex plugin add humanio-ceo@personal
+```
+
+Abrir un hilo nuevo después de instalar o actualizar. Consultar [la guía de instalación](./docs/INSTALLATION.md) para rutas personalizadas y diagnóstico.
+
+## Adoptar en un proyecto
+
+- Proyecto nuevo: inicializar directamente con el perfil y riesgo aplicables.
+- Repositorio existente: auditar primero, generar una línea base en un directorio temporal y reconciliar decisiones antes de copiar artefactos.
+
+La estrategia completa está en [docs/ADOPTION.md](./docs/ADOPTION.md).
+
 ## Pruebas del framework
 
 ```bash
@@ -94,3 +120,7 @@ La metodología consultiva original se conserva en:
 ## Gobierno
 
 La fuente principal del nuevo marco es [la Constitución](./docs/framework/00-CONSTITUTION.md).
+
+## Alcance de la estabilidad 1.0
+
+La versión 1.0 estabiliza estructura, perfiles, namespaces de IDs, CLI y contrato del manifiesto. No certifica por sí sola un proyecto real: cada adopción debe completar sus artefactos, pruebas y gates.
