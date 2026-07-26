@@ -1,10 +1,10 @@
 # humanio-ceo-self-pilot
 
-Proyecto gobernado con Humanio CEO Engineering Framework.
+Workspace gobernado que demuestra la aplicación del framework a su propio release.
 
 ## Problema
 
-VALIDADO EN AUTOPILOTO
+Una validación del plugin o de fixtures no prueba por sí sola que el repositorio evaluado cumpla su definición de terminado.
 
 ## Perfil y riesgo
 
@@ -13,4 +13,4 @@ VALIDADO EN AUTOPILOTO
 
 ## Documentación
 
-Leer `AGENTS.md` y `docs/00-contexto-producto.md` antes de modificar código.
+Leer `AGENTS.md`, `docs/00-contexto-producto.md` y `EVIDENCE.md` antes de modificar este piloto.
