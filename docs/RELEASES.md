@@ -19,9 +19,10 @@ Humanio CEO usa SemVer:
 5. Validar plugin y skills.
 6. Ejecutar fixtures estrictos.
 7. Crear paquete reproducible.
-8. Revisar diff y riesgos.
-9. Fusionar mediante PR.
-10. Crear tag o release únicamente después de que `main` esté validada.
+8. Ejecutar pruebas de portabilidad en Windows, macOS y Linux.
+9. Revisar diff y riesgos.
+10. Fusionar mediante PR.
+11. Crear tag o release únicamente después de que `main` esté validada.
 
 ## Paquete
 
@@ -40,5 +41,7 @@ La serie 1.x conserva:
 - Riesgos R0 a R3.
 - Namespaces publicados.
 - Comandos `doctor`, `init` y `validate`.
+- Estado de adaptadores con `schema_version: 1`.
+- Contenido ajeno a los bloques administrados.
 
 Una futura incompatibilidad debe elevar la versión mayor e incluir guía de migración.

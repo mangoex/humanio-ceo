@@ -14,7 +14,7 @@ Resultado esperado y comprobado: código cero, cero errores y cero advertencias.
 python3 -m unittest discover -s tests -v
 ```
 
-Resultado: catorce pruebas aprobadas.
+Resultado: veintiuna pruebas aprobadas.
 
 ## Evaluación conversacional
 
@@ -26,7 +26,7 @@ Resultado: `PBD-T-001` aprobado en cinco casos, incluidos gates fallidos, aproba
 
 ## Validadores oficiales
 
-Ejecutados el 2026-07-26 sobre los artefactos de la versión `1.0.6`:
+Ejecutados el 2026-07-27 sobre los artefactos de la versión `1.1.0`:
 
 ```bash
 python3 /root/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py .
@@ -45,7 +45,11 @@ CI ejecuta `scripts/verify_official_evidence.py`; cualquier cambio al contrato, 
 
 - Plugin y seis skills aprobados por validadores oficiales con evidencia ligada por SHA-256.
 - Instalación aislada aprobada por el validador de plugin y `humanio doctor`.
-- Empaquetado determinista comprobado por SHA-256.
+- CLI portable instalado, actualizado, ejecutado fuera del checkout y desinstalado
+  correctamente en una prueba aislada.
+- Seis adaptadores comprobados para instalación, sincronización, detección de
+  deriva, desinstalación selectiva, colisiones y enlaces simbólicos.
+- Dos paquetes de 157 archivos produjeron el mismo SHA-256.
 - CI verifica evidencia oficial, suite, evaluación conversacional y autopiloto estricto en cada pull request.
 
 ## Límite

@@ -13,25 +13,26 @@ El riesgo se elige de forma independiente. Un bot puede ser R3 y una aplicación
 ## Proyecto nuevo
 
 1. Ejecutar `humanio init`.
-2. Resolver Constitución, contexto, alcance y fuentes.
-3. Completar requisitos o reglas del primer incremento.
-4. Definir escenarios y pruebas.
-5. Actualizar trazabilidad.
-6. Ejecutar validación normal durante descubrimiento.
-7. Ejecutar validación estricta antes de aprobar.
+2. Ejecutar `humanio install --adapter auto`.
+3. Resolver Constitución, contexto, alcance y fuentes.
+4. Completar requisitos o reglas del primer incremento.
+5. Definir escenarios y pruebas.
+6. Actualizar trazabilidad.
+7. Ejecutar validación normal durante descubrimiento.
+8. Ejecutar validación estricta antes de aprobar.
 
 ## Repositorio existente
 
-No ejecutar el inicializador directamente sobre archivos que ya existen.
-
 1. Auditar documentación, código, pruebas, despliegue y fuentes.
 2. Clasificar confirmados, inferencias, pendientes y contradicciones.
-3. Generar una línea base Humanio en un directorio temporal.
-4. Reconciliar la documentación existente con el orden de autoridad.
-5. Copiar o adaptar un artefacto por vez.
-6. Mantener los IDs existentes cuando sean estables y no ambiguos.
-7. Ejecutar las pruebas reales del repositorio.
-8. Activar validación estricta en CI cuando la migración esté completa.
+3. Simular `humanio init --adopt` y revisar cualquier colisión distinta de
+   `README.md` o `AGENTS.md`.
+4. Ejecutar la adopción cuando el destino sea seguro.
+5. Instalar explícitamente los adaptadores requeridos.
+6. Reconciliar la documentación existente con el orden de autoridad.
+7. Mantener los IDs existentes cuando sean estables y no ambiguos.
+8. Ejecutar las pruebas reales del repositorio.
+9. Activar validación estricta en CI cuando la migración esté completa.
 
 ## Cambios posteriores
 

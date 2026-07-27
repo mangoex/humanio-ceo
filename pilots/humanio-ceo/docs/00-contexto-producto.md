@@ -4,18 +4,23 @@
 
 - Producto: Humanio CEO Engineering Framework.
 - Problema: los proyectos con IA pierden decisiones, trazabilidad y evidencia entre conversación, especificación e implementación.
-- Usuarios: responsables de producto, consultores, desarrolladores y agentes Codex.
+- Usuarios: responsables de producto, consultores, desarrolladores y usuarios de
+  IDE o agentes con acceso a una terminal.
 - Resultado: una línea base gobernada, validable, instalable y reutilizable.
 
 ## Objetivos
 
 - `OBJ-001`: distribuir un plugin válido que inicialice y valide proyectos gobernados.
+- `OBJ-002`: ejecutar el CLI fuera del checkout desde Windows, macOS o Linux.
+- `OBJ-003`: integrar el gobierno Humanio con distintos agentes sin perder
+  contenido del proyecto ni acoplar el núcleo a un proveedor.
 
 ## Alcance
 
 ### Incluye
 
-- Plugin, seis skills, plantillas, CLI, pruebas, CI, instalación y empaquetado.
+- Plugin, seis skills, plantillas, CLI portable, adaptadores, pruebas, CI,
+  instalación y empaquetado.
 
 ### Excluye
 
@@ -42,8 +47,8 @@
 - Nivel: R1.
 - Justificación: combina software determinista y skills, sin despliegues o transacciones externas automáticas.
 
-## Criterio del primer incremento
+## Criterio del incremento vigente
 
-- Capacidad: instalar, inicializar, validar y empaquetar el plugin.
-- Gate: validación estricta, pruebas, CI e instalación aislada.
+- Capacidad: instalar, inicializar, validar, integrar agentes y empaquetar el framework.
+- Gate: validación estricta, pruebas, CI, instalación aislada y reversibilidad.
 - Evidencia: `EVIDENCE.md`.

@@ -30,6 +30,13 @@ Ejecutan validaciones repetibles: estructura, IDs, trazabilidad, placeholders, e
 
 Prueban el framework sobre casos conversacionales, software e híbridos anonimizados.
 
+### 7. Adaptadores
+
+Materializan instrucciones mínimas en formatos nativos de herramientas externas.
+El núcleo y los documentos Humanio siguen siendo la fuente canónica. Un adaptador
+solo mantiene bloques delimitados, reversibles y registrados; no duplica la
+metodología completa ni instala extensiones propietarias.
+
 ## Flujo
 
 1. Recibir idea, requisitos, prompt, documentos o repositorio.
@@ -73,3 +80,12 @@ docs/
 ```
 
 Las integraciones externas se mantendrán desacopladas. Solo se añadirá `.mcp.json` o `.app.json` cuando exista una capacidad implementada y necesaria.
+
+## Portabilidad
+
+- El CLI portable funciona desde cualquier terminal con Python 3.11 o posterior.
+- El adaptador `generic` es el fallback para IDE sin convención reconocida.
+- La integración automática requiere señales explícitas dentro del repositorio.
+- Codex conserva su plugin y marketplace como canal especializado.
+- La ausencia de adaptador impide afirmar carga automática por el agente, pero no
+  impide usar inicialización, validación y gates desde la terminal.

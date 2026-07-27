@@ -37,10 +37,42 @@
 - Aserción: instalación y actualización aisladas terminan correctamente.
 - Estado: passed.
 
+## TDD-TC-006
+
+- Cubre: PRD-FR-002, PRD-NFR-002, BDD-SC-002.
+- Ejecutable: `PortableCliTests.test_isolated_cli_install_update_and_uninstall`.
+- Aserciones: el lanzador aislado ejecuta `doctor`, rechaza una reinstalación
+  implícita y permite actualización y desinstalación explícitas.
+- Estado: passed.
+
+## TDD-TC-007
+
+- Cubre: PRD-FR-003, PRD-NFR-002, BDD-SC-003, BDD-SC-004.
+- Ejecutable: `AdapterIntegrationTests.test_integrate_sync_and_uninstall_preserve_user_content`.
+- Aserciones: los seis adaptadores son idempotentes, conservan contenido ajeno,
+  sincronizan sus bloques y se desinstalan selectivamente.
+- Estado: passed.
+
+## TDD-TC-008
+
+- Cubre: PRD-FR-003, PRD-NFR-002, BDD-SC-005.
+- Ejecutable: `AdapterIntegrationTests.test_malformed_markers_abort_without_writes`.
+- Aserciones: una marca incompleta cancela la operación y no crea ni modifica
+  ningún otro destino.
+- Estado: passed.
+
+## TDD-TC-009
+
+- Cubre: PRD-FR-003, PRD-NFR-002, BDD-SC-003.
+- Ejecutable: `AdapterIntegrationTests.test_auto_detection_and_dry_run`.
+- Aserciones: `auto` parte de `generic`, añade señales explícitas y `dry-run`
+  no modifica el workspace.
+- Estado: passed.
+
 ## Estrategia
 
 - Unitarias: parsing, selección de archivos e IDs.
-- Integración: inicializador, validador, instalador y empaquetador.
+- Integración: inicializador, validador, instaladores, adaptadores y empaquetador.
 - Contrato: manifiesto y estructura del plugin.
 - Seguridad: secretos potenciales y sobrescrituras.
 - Regresión: suite completa, evaluación conversacional y autopiloto estricto en cada PR.

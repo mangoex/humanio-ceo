@@ -39,6 +39,7 @@ SOFTWARE_FILES = {
     "software/BOOTSTRAP_CHECKLIST.md": "codex/BOOTSTRAP_CHECKLIST.md",
     "software/CODEX_IMPORT_PROMPT.md": "codex/CODEX_IMPORT_PROMPT.md",
 }
+ADOPTABLE_ROOT_FILES = {"README.md", "AGENTS.md"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -53,6 +54,11 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         required=True,
         help="Destination directory. It may exist only if targets do not collide.",
+    )
+    parser.add_argument(
+        "--adopt",
+        action="store_true",
+        help="Preserve existing README.md and AGENTS.md in an existing repository.",
     )
     return parser.parse_args()
 
@@ -80,6 +86,19 @@ def main() -> int:
     templates_root = plugin_root / "templates"
     output = args.output.resolve()
     file_map = selected_files(args.profile)
+    preserved = [
+        destination
+        for destination in ADOPTABLE_ROOT_FILES
+        if args.adopt
+        and destination in file_map.values()
+        and (output / destination).exists()
+    ]
+    if preserved:
+        file_map = {
+            source: destination
+            for source, destination in file_map.items()
+            if destination not in preserved
+        }
 
     missing_templates = [
         source for source in file_map if not (templates_root / source).is_file()
@@ -132,6 +151,8 @@ def main() -> int:
         f"({args.profile}, {args.risk}) en {output}"
     )
     print(f"Archivos creados: {len(created)}")
+    if preserved:
+        print(f"Archivos existentes preservados: {', '.join(sorted(preserved))}")
     print(f"Siguiente paso: python3 {plugin_root / 'scripts/validate_workspace.py'} {output}")
     return 0
 

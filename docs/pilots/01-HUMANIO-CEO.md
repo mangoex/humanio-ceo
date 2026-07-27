@@ -5,7 +5,7 @@
 Aplicar el marco a su propio desarrollo, empaquetado e instalación como plugin.
 
 - Repositorio: `mangoex/humanio-ceo`.
-- Versión evaluada: `1.0.6`.
+- Versión evaluada: `1.1.0`.
 - Perfil: híbrido, porque combina herramientas deterministas y skills de agentes.
 - Riesgo: R1, porque el plugin produce artefactos y cambios locales pero no despliega ni ejecuta transacciones externas por sí mismo.
 
@@ -14,12 +14,15 @@ Aplicar el marco a su propio desarrollo, empaquetado e instalación como plugin.
 - Constitución, autoridad, riesgo, gates y definición de terminado versionados.
 - Seis skills aprobadas por el validador oficial.
 - Plugin aprobado por el validador oficial.
-- Catorce pruebas automatizadas aprobadas.
+- Veintiuna pruebas automatizadas aprobadas.
 - Tres fixtures aprobados en modo estricto con cero errores y cero advertencias.
 - Workflow de GitHub Actions aprobado en los PR de fases 3 y 4.
 - Paquete ZIP auditable validado sin errores desde el repositorio completo.
 - Dos empaquetados del mismo estado produjeron los mismos bytes.
 - Instalación aislada aprobó validación de plugin y `humanio doctor`.
+- Instalación aislada del CLI portable aprobó `doctor` fuera del checkout.
+- Adaptadores reversibles comprobados con contenido preexistente, deriva,
+  desinstalación selectiva, marcas inválidas y enlaces simbólicos.
 - Inicializador comprobado para los tres perfiles.
 - Protección contra sobrescritura comprobada.
 - `pilots/humanio-ceo` aprobó validación estricta con cero errores y cero advertencias.

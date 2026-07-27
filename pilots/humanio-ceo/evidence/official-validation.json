@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "framework_version": "1.0.6",
-  "validated_at_utc": "2026-07-27T00:47:55Z",
+  "framework_version": "1.1.0",
+  "validated_at_utc": "2026-07-27T03:38:24Z",
   "plugin_result": "passed",
   "plugin_output": "Plugin validation passed",
   "skill_results": {
@@ -18,10 +18,10 @@
     "skill-creator/quick_validate.py": "6cc9dc3199c935916cf6f73fcbbbb0e3bb1b58c8f5109fefa499978908164f51"
   },
   "artifact_sha256": {
-    ".codex-plugin/plugin.json": "7ee058645d16ba85e13cd5f58b9881335258eed8d645417e9e3430f6bae801a4",
+    ".codex-plugin/plugin.json": "b90e41109c53cc60b4a163d23f4c10da1d88a8490c11c1233c4957c4d28ad8f5",
     ".codex-plugin/validation-contract.json": "6efc9af16ce233b353a5edd2d793d2db61e03f542aefbd1cf6a664cf121ea3ef",
     "docs/framework/00-CONSTITUTION.md": "5e99547d678e9dd1ae03bd0fc26e6e90c320fcaacd3f6614e96e9373a71f4ba6",
-    "docs/framework/01-ARCHITECTURE.md": "3eb9792568f99fa5567e576a0b3f5c60bfa98aae11d486e93f7e824e1bfc0c06",
+    "docs/framework/01-ARCHITECTURE.md": "959407983a5ef354ef0608dd5f23acebc33f900af0b42520aa5cfe75fa3b5ef8",
     "docs/framework/02-AUTHORITY-MODEL.md": "5e1c1ad98e093150bce40baaa65b4727c70c9bf13cee2136821fbdc264494dde",
     "docs/framework/03-RISK-MODEL.md": "53fdc470946b8d14e3dd276674bf7ae3fe6818c636c146ba055f7624fb389545",
     "docs/framework/04-QUALITY-GATES.md": "374687623d5bbffa5a80c4913ceceba42b8bc8dc41b7043c7f175d0ef8dbf915",
