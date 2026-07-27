@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "framework_version": "1.0.5",
-  "validated_at_utc": "2026-07-27T00:11:39Z",
+  "framework_version": "1.0.6",
+  "validated_at_utc": "2026-07-27T00:23:04Z",
   "plugin_result": "passed",
   "plugin_output": "Plugin validation passed",
   "skill_results": {
@@ -18,7 +18,7 @@
     "skill-creator/quick_validate.py": "6cc9dc3199c935916cf6f73fcbbbb0e3bb1b58c8f5109fefa499978908164f51"
   },
   "artifact_sha256": {
-    ".codex-plugin/plugin.json": "4a2890b47a945d69df6c79ea4e9cdc0d76c55c11971e9f902e08f55f672d42ec",
+    ".codex-plugin/plugin.json": "7ee058645d16ba85e13cd5f58b9881335258eed8d645417e9e3430f6bae801a4",
     "skills/ceo-discovery/SKILL.md": "8ce577d7afbdb954fc3cb03b387ae7e41e180b81655c53aafc5dd787fadc28b5",
     "skills/humanio-project-engineer/SKILL.md": "0e91c5cb9b455d928bc0f1c3a41c376d231360e4672fd774ab05e10b169f35f6",
     "skills/pbd-governance/SKILL.md": "7a7c09d9301d7ab050a1b27fb5705eece9bc5751f5ec365d7e3276cbdbd4bfca",

@@ -2,6 +2,18 @@
 
 Todos los cambios relevantes del framework se documentan aquí.
 
+## [1.0.6] - 2026-07-26
+
+### Fixed
+
+- La evidencia oficial debe coincidir exactamente con todas las carpetas instaladas en `skills/` y sus hashes.
+- El gate `PBD-T-001` rechaza conjuntos de casos vacíos, incompletos o duplicados.
+- La evidencia de release declara y prueba que los fixtures versionados se distribuyen intencionalmente.
+
+### Added
+
+- Pruebas negativas para skills sin validar y suites de readiness incompletas.
+
 ## [1.0.5] - 2026-07-26
 
 ### Fixed

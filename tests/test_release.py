@@ -48,6 +48,9 @@ class ReleaseTests(unittest.TestCase):
             )
             self.assertIn("humanio-ceo/pilots/humanio-ceo/EVIDENCE.md", names)
             self.assertIn("humanio-ceo/tests/evals/readiness-cases.json", names)
+            self.assertIn(
+                "humanio-ceo/tests/fixtures/software/humanio.yaml", names
+            )
             self.assertIn("humanio-ceo/.github/workflows/validate.yml", names)
             self.assertFalse(any("__pycache__" in name for name in names))
 
@@ -82,6 +85,24 @@ class ReleaseTests(unittest.TestCase):
         result = self.run_script(VERIFY_EVIDENCE)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("Evidencia oficial vigente", result.stdout)
+        skills_root = ROOT / "skills"
+        with tempfile.TemporaryDirectory(
+            prefix="unvalidated-skill-", dir=skills_root
+        ) as temporary:
+            (Path(temporary) / "SKILL.md").write_text(
+                "---\nname: unvalidated\ndescription: Regression fixture.\n---\n",
+                encoding="utf-8",
+            )
+            rejected = self.run_script(VERIFY_EVIDENCE)
+            self.assertEqual(rejected.returncode, 1)
+            self.assertIn(
+                "skill_results must match installed skills exactly",
+                rejected.stderr,
+            )
+            self.assertIn(
+                "artifact_sha256 must match the plugin manifest and installed skills",
+                rejected.stderr,
+            )
 
 
 if __name__ == "__main__":

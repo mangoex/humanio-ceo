@@ -11,6 +11,13 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
+REQUIRED_CASE_NAMES = {
+    "strict validation failed",
+    "tests not executed",
+    "approval missing",
+    "accepted residual condition",
+    "all gates passed",
+}
 
 
 def decide(case: dict[str, Any]) -> str:
@@ -59,6 +66,18 @@ def main() -> int:
         isinstance(item, dict) for item in payload
     ):
         print("ERROR: el archivo de casos debe contener una lista de objetos.", file=sys.stderr)
+        return 2
+    case_names = [item.get("name") for item in payload]
+    if (
+        len(payload) != len(REQUIRED_CASE_NAMES)
+        or any(not isinstance(name, str) for name in case_names)
+        or set(case_names) != REQUIRED_CASE_NAMES
+    ):
+        print(
+            "ERROR: se requiere el conjunto completo y sin duplicados de "
+            f"{len(REQUIRED_CASE_NAMES)} casos de readiness.",
+            file=sys.stderr,
+        )
         return 2
     errors = evaluate(payload)
     if errors:

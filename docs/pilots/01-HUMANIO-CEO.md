@@ -5,7 +5,7 @@
 Aplicar el marco a su propio desarrollo, empaquetado e instalación como plugin.
 
 - Repositorio: `mangoex/humanio-ceo`.
-- Versión evaluada: `1.0.5`.
+- Versión evaluada: `1.0.6`.
 - Perfil: híbrido, porque combina herramientas deterministas y skills de agentes.
 - Riesgo: R1, porque el plugin produce artefactos y cambios locales pero no despliega ni ejecuta transacciones externas por sí mismo.
 
@@ -31,7 +31,7 @@ Aplicar el marco a su propio desarrollo, empaquetado e instalación como plugin.
 
 - La estructura y el CLI alcanzan estabilidad 1.x.
 - CI hace verificable el gate técnico en cada pull request.
-- El empaquetado excluye fixtures y metadatos de desarrollo.
+- El empaquetado incluye intencionalmente los fixtures versionados para reproducir la suite distribuida y excluye cachés y metadatos Git.
 - El repositorio no contiene una licencia.
 
 ## Decisión
