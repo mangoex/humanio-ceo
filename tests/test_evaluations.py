@@ -30,11 +30,14 @@ class ConversationalEvaluationTests(unittest.TestCase):
             strict_exit_code=0,
             expected="READY",
         )
+        type_altered_cases = [dict(case) for case in valid_cases]
+        type_altered_cases[0]["tests_passed"] = 1
         with tempfile.TemporaryDirectory() as temporary:
             for name, cases in (
                 ("empty", []),
                 ("incomplete", valid_cases[:-1]),
                 ("altered-semantics", altered_cases),
+                ("altered-types", type_altered_cases),
             ):
                 with self.subTest(name=name):
                     path = Path(temporary) / f"{name}.json"
@@ -49,6 +52,7 @@ class ConversationalEvaluationTests(unittest.TestCase):
                     self.assertTrue(
                         "se requiere el conjunto completo" in rejected.stderr
                         or "no coincide con su escenario canónico" in rejected.stderr
+                        or "contiene campos o tipos no canónicos" in rejected.stderr
                     )
 
 

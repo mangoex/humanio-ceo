@@ -11,47 +11,14 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-REQUIRED_CASES = {
-    "strict validation failed": {
-        "name": "strict validation failed",
-        "strict_exit_code": 1,
-        "tests_passed": True,
-        "required_approvals": True,
-        "accepted_conditions": False,
-        "expected": "NOT READY",
-    },
-    "tests not executed": {
-        "name": "tests not executed",
-        "strict_exit_code": 0,
-        "tests_passed": False,
-        "required_approvals": True,
-        "accepted_conditions": False,
-        "expected": "NOT READY",
-    },
-    "approval missing": {
-        "name": "approval missing",
-        "strict_exit_code": 0,
-        "tests_passed": True,
-        "required_approvals": False,
-        "accepted_conditions": False,
-        "expected": "NOT READY",
-    },
-    "accepted residual condition": {
-        "name": "accepted residual condition",
-        "strict_exit_code": 0,
-        "tests_passed": True,
-        "required_approvals": True,
-        "accepted_conditions": True,
-        "expected": "CONDITIONAL",
-    },
-    "all gates passed": {
-        "name": "all gates passed",
-        "strict_exit_code": 0,
-        "tests_passed": True,
-        "required_approvals": True,
-        "accepted_conditions": False,
-        "expected": "READY",
-    },
+CONTRACT = ROOT / ".codex-plugin/validation-contract.json"
+CASE_TYPES = {
+    "name": str,
+    "strict_exit_code": int,
+    "tests_passed": bool,
+    "required_approvals": bool,
+    "accepted_conditions": bool,
+    "expected": str,
 }
 
 
@@ -80,6 +47,27 @@ def evaluate(cases: list[dict[str, Any]]) -> list[str]:
     return errors
 
 
+def load_required_cases() -> dict[str, dict[str, Any]]:
+    contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    cases = contract.get("required_readiness_cases")
+    if not isinstance(cases, list) or not all(
+        isinstance(case, dict) for case in cases
+    ):
+        raise ValueError(
+            "required_readiness_cases must be a list of objects"
+        )
+    names = [case.get("name") for case in cases]
+    if (
+        not cases
+        or any(not isinstance(name, str) for name in names)
+        or len(names) != len(set(names))
+    ):
+        raise ValueError(
+            "canonical readiness case names must be unique strings"
+        )
+    return {case["name"]: case for case in cases}
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Evaluate readiness policy cases.")
     parser.add_argument(
@@ -94,7 +82,8 @@ def main() -> int:
     args = parse_args()
     try:
         payload = json.loads(args.cases.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as error:
+        required_cases = load_required_cases()
+    except (OSError, ValueError, json.JSONDecodeError) as error:
         print(f"ERROR: {error}", file=sys.stderr)
         return 2
     if not isinstance(payload, list) or not all(
@@ -104,19 +93,29 @@ def main() -> int:
         return 2
     case_names = [item.get("name") for item in payload]
     if (
-        len(payload) != len(REQUIRED_CASES)
+        len(payload) != len(required_cases)
         or any(not isinstance(name, str) for name in case_names)
-        or set(case_names) != set(REQUIRED_CASES)
+        or set(case_names) != set(required_cases)
     ):
         print(
             "ERROR: se requiere el conjunto completo y sin duplicados de "
-            f"{len(REQUIRED_CASES)} casos de readiness.",
+            f"{len(required_cases)} casos de readiness.",
             file=sys.stderr,
         )
         return 2
     for case in payload:
         name = case["name"]
-        if case != REQUIRED_CASES[name]:
+        expected_case = required_cases[name]
+        if set(case) != set(CASE_TYPES) or any(
+            type(case[field]) is not expected_type
+            for field, expected_type in CASE_TYPES.items()
+        ):
+            print(
+                f"ERROR: el caso {name!r} contiene campos o tipos no canónicos.",
+                file=sys.stderr,
+            )
+            return 2
+        if case != expected_case:
             print(
                 f"ERROR: el caso {name!r} no coincide con su escenario canónico.",
                 file=sys.stderr,

@@ -35,11 +35,11 @@ for skill in skills/*; do
 done
 ```
 
-Resultados, hashes de validadores y hashes de los siete artefactos validados:
+Resultados, hashes de validadores y hashes del contrato, manifest, archivos distribuidos de las seis skills y sus dependencias documentales canónicas:
 
 `evidence/official-validation.json`
 
-CI ejecuta `scripts/verify_official_evidence.py`; cualquier cambio al manifest o a una skill invalida la aprobación registrada.
+CI ejecuta `scripts/verify_official_evidence.py`; cualquier cambio al contrato, manifest, archivo de una skill o dependencia documental canónica invalida la aprobación registrada.
 
 ## Release
 

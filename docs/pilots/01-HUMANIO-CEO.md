@@ -24,7 +24,7 @@ Aplicar el marco a su propio desarrollo, empaquetado e instalación como plugin.
 - Protección contra sobrescritura comprobada.
 - `pilots/humanio-ceo` aprobó validación estricta con cero errores y cero advertencias.
 - La evaluación ejecutable `PBD-T-001` impide emitir `READY` con gates o aprobaciones fallidas.
-- La evidencia oficial está ligada por hashes al manifest y a las seis skills.
+- La evidencia oficial está ligada por hashes al contrato, manifest, archivos de las seis skills y sus dependencias documentales canónicas.
 - El paquete incluye workspace, evidencia, pruebas, casos de evaluación y workflow.
 
 ## Hallazgos

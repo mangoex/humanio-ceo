@@ -64,6 +64,29 @@ class ReleaseTests(unittest.TestCase):
             )
             self.assertIn("humanio-ceo/.github/workflows/validate.yml", names)
             self.assertFalse(any("__pycache__" in name for name in names))
+            hidden_name = ".hidden-unvalidated-skill"
+            hidden_root = ROOT / "skills" / hidden_name
+            hidden_root.mkdir()
+            try:
+                (hidden_root / "SKILL.md").write_text(
+                    "---\nname: hidden\ndescription: Must not ship.\n---\n",
+                    encoding="utf-8",
+                )
+                hidden_archive = Path(temporary) / "hidden.zip"
+                self.assertEqual(
+                    self.run_script(
+                        PACKAGE, "--output", hidden_archive
+                    ).returncode,
+                    0,
+                )
+                with zipfile.ZipFile(hidden_archive) as archive:
+                    hidden_names = set(archive.namelist())
+                self.assertFalse(
+                    any(f"/skills/{hidden_name}/" in name for name in hidden_names)
+                )
+            finally:
+                (hidden_root / "SKILL.md").unlink(missing_ok=True)
+                hidden_root.rmdir()
 
     def test_local_installer_registers_personal_marketplace(self) -> None:
         """TDD-TC-005: install and update an isolated personal marketplace."""
@@ -112,14 +135,25 @@ class ReleaseTests(unittest.TestCase):
             )
         with tempfile.TemporaryDirectory() as temporary:
             fake_root = Path(temporary)
+            fake_contract_root = fake_root / ".codex-plugin"
+            fake_contract_root.mkdir()
+            (fake_contract_root / "validation-contract.json").write_text(
+                (
+                    ROOT / ".codex-plugin/validation-contract.json"
+                ).read_text(encoding="utf-8"),
+                encoding="utf-8",
+            )
             fake_skills_root = fake_root / "skills"
             fake_skills_root.mkdir()
-            for name in sorted(VERIFY_MODULE.REQUIRED_SKILLS):
+            required_skills = set(
+                VERIFY_MODULE.load_contract(ROOT)["required_skills"]
+            )
+            for name in sorted(required_skills):
                 if name != "traceability-auditor":
                     (fake_skills_root / name).mkdir()
             self.assertNotEqual(
                 VERIFY_MODULE.installed_skills(fake_root),
-                VERIFY_MODULE.REQUIRED_SKILLS,
+                required_skills,
             )
             payload = json.loads(
                 OFFICIAL_EVIDENCE.read_text(encoding="utf-8")
@@ -134,7 +168,11 @@ class ReleaseTests(unittest.TestCase):
             )
         with tempfile.TemporaryDirectory(
             prefix=".hidden-tooling-", dir=ROOT / "skills"
-        ):
+        ) as temporary:
+            (Path(temporary) / "SKILL.md").write_text(
+                "---\nname: hidden\ndescription: Ignored metadata fixture.\n---\n",
+                encoding="utf-8",
+            )
             hidden_ignored = self.run_script(VERIFY_EVIDENCE)
             self.assertEqual(
                 hidden_ignored.returncode,

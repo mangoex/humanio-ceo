@@ -28,6 +28,18 @@ ROOT_FILES = (
     "VERSION",
 )
 EXCLUDED_PARTS = {"__pycache__", ".git"}
+ALLOWED_HIDDEN_ROOTS = {".codex-plugin", ".github"}
+
+
+def is_excluded(path: Path) -> bool:
+    relative = path.relative_to(ROOT)
+    if EXCLUDED_PARTS.intersection(relative.parts) or path.suffix == ".pyc":
+        return True
+    return any(
+        part.startswith(".")
+        and not (index == 0 and part in ALLOWED_HIDDEN_ROOTS)
+        for index, part in enumerate(relative.parts)
+    )
 
 
 def plugin_files() -> list[Path]:
@@ -37,7 +49,7 @@ def plugin_files() -> list[Path]:
     return sorted(
         path
         for path in files
-        if not EXCLUDED_PARTS.intersection(path.parts) and path.suffix != ".pyc"
+        if not is_excluded(path)
     )
 
 

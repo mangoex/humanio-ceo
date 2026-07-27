@@ -15,18 +15,33 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_EVIDENCE = (
     ROOT / "pilots/humanio-ceo/evidence/official-validation.json"
 )
-REQUIRED_SKILLS = {
-    "ceo-discovery",
-    "humanio-project-engineer",
-    "pbd-governance",
-    "production-readiness",
-    "software-specification",
-    "traceability-auditor",
-}
+CONTRACT_PATH = ".codex-plugin/validation-contract.json"
 
 
 def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def load_contract(root: Path = ROOT) -> dict[str, Any]:
+    payload = json.loads((root / CONTRACT_PATH).read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("validation contract must be a JSON object")
+    required_skills = payload.get("required_skills")
+    dependencies = payload.get("skill_dependencies")
+    if (
+        not isinstance(required_skills, list)
+        or not required_skills
+        or not all(isinstance(name, str) and name for name in required_skills)
+        or len(required_skills) != len(set(required_skills))
+    ):
+        raise ValueError("required_skills must be a unique non-empty string list")
+    if (
+        not isinstance(dependencies, list)
+        or not all(isinstance(path, str) and path for path in dependencies)
+        or len(dependencies) != len(set(dependencies))
+    ):
+        raise ValueError("skill_dependencies must be a unique string list")
+    return payload
 
 
 def installed_skills(root: Path = ROOT) -> set[str]:
@@ -38,24 +53,51 @@ def installed_skills(root: Path = ROOT) -> set[str]:
     }
 
 
+def expected_artifacts(root: Path, contract: dict[str, Any]) -> set[str]:
+    artifacts = {
+        ".codex-plugin/plugin.json",
+        CONTRACT_PATH,
+        *contract["skill_dependencies"],
+    }
+    for name in contract["required_skills"]:
+        skill_root = root / "skills" / name
+        if not skill_root.is_dir():
+            continue
+        for path in skill_root.rglob("*"):
+            relative_parts = path.relative_to(skill_root).parts
+            if (
+                path.is_file()
+                and not any(part.startswith(".") for part in relative_parts)
+                and "__pycache__" not in relative_parts
+                and path.suffix != ".pyc"
+            ):
+                artifacts.add(path.relative_to(root).as_posix())
+    return artifacts
+
+
 def verify(payload: dict[str, Any], root: Path = ROOT) -> list[str]:
     errors: list[str] = []
+    try:
+        contract = load_contract(root)
+    except (OSError, ValueError, json.JSONDecodeError) as error:
+        return [f"invalid validation contract: {error}"]
+    required_skills = set(contract["required_skills"])
     if payload.get("plugin_result") != "passed":
         errors.append("official plugin validation is not recorded as passed")
     discovered_skills = installed_skills(root)
-    if discovered_skills != REQUIRED_SKILLS:
+    if discovered_skills != required_skills:
         errors.append(
             "installed skills must match the canonical inventory exactly: "
-            f"expected {sorted(REQUIRED_SKILLS)}, "
+            f"expected {sorted(required_skills)}, "
             f"got {sorted(discovered_skills)}"
         )
     skill_results = payload.get("skill_results")
     if not isinstance(skill_results, dict):
         errors.append("skill_results must be an object")
-    elif set(skill_results) != REQUIRED_SKILLS:
+    elif set(skill_results) != required_skills:
         errors.append(
             "skill_results must match canonical skills exactly: "
-            f"expected {sorted(REQUIRED_SKILLS)}, got {sorted(skill_results)}"
+            f"expected {sorted(required_skills)}, got {sorted(skill_results)}"
         )
     elif set(skill_results.values()) != {"passed"}:
         errors.append("all official skill validations must be passed")
@@ -63,13 +105,11 @@ def verify(payload: dict[str, Any], root: Path = ROOT) -> list[str]:
     if not isinstance(artifacts, dict) or not artifacts:
         errors.append("artifact_sha256 must be a non-empty object")
         return errors
-    expected_artifacts = {".codex-plugin/plugin.json"} | {
-        f"skills/{name}/SKILL.md" for name in REQUIRED_SKILLS
-    }
-    if set(artifacts) != expected_artifacts:
+    required_artifacts = expected_artifacts(root, contract)
+    if set(artifacts) != required_artifacts:
         errors.append(
-            "artifact_sha256 must match the plugin manifest and installed skills "
-            f"exactly: expected {sorted(expected_artifacts)}, "
+            "artifact_sha256 must match the validation contract and all skill inputs "
+            f"exactly: expected {sorted(required_artifacts)}, "
             f"got {sorted(artifacts)}"
         )
     for relative, expected in sorted(artifacts.items()):

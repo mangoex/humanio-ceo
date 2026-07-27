@@ -29,7 +29,7 @@ Humanio CEO usa SemVer:
 python3 scripts/package_plugin.py
 ```
 
-El archivo resultante incluye plugin, workspace de autopiloto, evidencia, pruebas, fixtures versionados, casos de evaluación y workflow. Los fixtures permiten reproducir la suite desde el artefacto distribuido. Excluye cachés y metadatos Git. Dos ejecuciones sobre el mismo contenido producen los mismos bytes.
+El archivo resultante incluye plugin, contrato de validación, workspace de autopiloto, evidencia, pruebas, fixtures versionados, casos de evaluación y workflow. Los fixtures permiten reproducir la suite desde el artefacto distribuido. Excluye cachés, directorios ocultos no canónicos y metadatos Git. Dos ejecuciones sobre el mismo contenido producen los mismos bytes.
 
 ## Compatibilidad
 

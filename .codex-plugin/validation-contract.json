@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "required_skills": [
+    "ceo-discovery",
+    "humanio-project-engineer",
+    "pbd-governance",
+    "production-readiness",
+    "software-specification",
+    "traceability-auditor"
+  ],
+  "skill_dependencies": [
+    "docs/framework/00-CONSTITUTION.md",
+    "docs/framework/01-ARCHITECTURE.md",
+    "docs/framework/02-AUTHORITY-MODEL.md",
+    "docs/framework/03-RISK-MODEL.md",
+    "docs/framework/04-QUALITY-GATES.md",
+    "docs/framework/05-ARTIFACT-STANDARD.md",
+    "docs/framework/06-DEFINITION-OF-DONE.md",
+    "docs/framework/07-MATURITY-MODEL.md",
+    "docs/profiles/conversational.md",
+    "docs/profiles/hybrid.md",
+    "docs/profiles/software.md"
+  ],
+  "required_readiness_cases": [
+    {
+      "name": "strict validation failed",
+      "strict_exit_code": 1,
+      "tests_passed": true,
+      "required_approvals": true,
+      "accepted_conditions": false,
+      "expected": "NOT READY"
+    },
+    {
+      "name": "tests not executed",
+      "strict_exit_code": 0,
+      "tests_passed": false,
+      "required_approvals": true,
+      "accepted_conditions": false,
+      "expected": "NOT READY"
+    },
+    {
+      "name": "approval missing",
+      "strict_exit_code": 0,
+      "tests_passed": true,
+      "required_approvals": false,
+      "accepted_conditions": false,
+      "expected": "NOT READY"
+    },
+    {
+      "name": "accepted residual condition",
+      "strict_exit_code": 0,
+      "tests_passed": true,
+      "required_approvals": true,
+      "accepted_conditions": true,
+      "expected": "CONDITIONAL"
+    },
+    {
+      "name": "all gates passed",
+      "strict_exit_code": 0,
+      "tests_passed": true,
+      "required_approvals": true,
+      "accepted_conditions": false,
+      "expected": "READY"
+    }
+  ]
+}
