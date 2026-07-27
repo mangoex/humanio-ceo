@@ -26,7 +26,7 @@ Resultado: `PBD-T-001` aprobado en cinco casos, incluidos gates fallidos, aproba
 
 ## Validadores oficiales
 
-Ejecutados el 2026-07-26 sobre los artefactos de la versión `1.0.4`:
+Ejecutados el 2026-07-26 sobre los artefactos de la versión `1.0.5`:
 
 ```bash
 python3 /root/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py .
