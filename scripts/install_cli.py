@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import shlex
 import shutil
 import sys
 import tempfile
@@ -47,12 +48,25 @@ def launcher_content(destination: Path) -> str:
             f'@"{sys.executable}" "{script}" %*\r\n'
         )
     return (
-        "#!/usr/bin/env python3\n"
+        "#!/bin/sh\n"
         f"# {LAUNCHER_MARKER}\n"
-        "import runpy, sys\n"
-        f"sys.path.insert(0, {str(script.parent)!r})\n"
-        f"runpy.run_path({str(script)!r}, run_name='__main__')\n"
+        f"exec {shlex.quote(sys.executable)} {shlex.quote(str(script))} \"$@\"\n"
     )
+
+
+def write_launcher_atomic(launcher: Path, content: str) -> None:
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{launcher.name}.humanio-", dir=launcher.parent
+    )
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="") as stream:
+            stream.write(content)
+        if os.name != "nt":
+            temporary.chmod(0o755)
+        temporary.replace(launcher)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def validate_targets(destination: Path, launcher: Path, update: bool) -> None:
@@ -115,6 +129,7 @@ def install(
     previous_launcher = (
         launcher.read_text(encoding="utf-8") if launcher.exists() else None
     )
+    had_destination = destination.exists()
     try:
         copy_runtime(staging)
         if destination.exists():
@@ -122,13 +137,7 @@ def install(
                 raise FileExistsError(f"existe un respaldo pendiente: {backup}")
             destination.rename(backup)
         staging.rename(destination)
-        temporary_launcher = launcher.with_name(f".{launcher.name}.tmp")
-        temporary_launcher.write_text(
-            launcher_content(destination), encoding="utf-8", newline=""
-        )
-        if os.name != "nt":
-            temporary_launcher.chmod(0o755)
-        temporary_launcher.replace(launcher)
+        write_launcher_atomic(launcher, launcher_content(destination))
         if backup.exists():
             shutil.rmtree(backup)
     except OSError:
@@ -137,6 +146,8 @@ def install(
             backup.rename(destination)
         elif backup.exists():
             backup.rename(destination)
+        elif not had_destination and destination.exists():
+            shutil.rmtree(destination)
         if previous_launcher is None:
             launcher.unlink(missing_ok=True)
         else:

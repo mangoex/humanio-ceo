@@ -18,6 +18,10 @@ Todos los cambios relevantes del framework se documentan aquí.
 - Los adaptadores rechazan enlaces simbólicos y marcas administradas incompletas.
 - Las operaciones realizan preflight completo, escrituras atómicas y reversión ante fallos.
 - La desinstalación elimina únicamente bloques y lanzadores identificados como Humanio.
+- Los reemplazos conservan permisos y contenido ajeno byte a byte.
+- El lanzador Unix fija el intérprete validado y usa temporales exclusivos.
+- Una instalación inicial incompleta revierte también el runtime recién creado.
+- La adopción rechaza symlinks rotos y el estado exige un objeto JSON válido.
 
 ## [1.0.6] - 2026-07-26
 

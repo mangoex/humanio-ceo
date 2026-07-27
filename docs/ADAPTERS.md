@@ -31,9 +31,10 @@ Humanio usa estas marcas:
 <!-- humanio-ceo:managed:end -->
 ```
 
-Contenido antes y después de las marcas pertenece al proyecto y se conserva. Una
-marca faltante, duplicada o desordenada se considera corrupción y cancela toda la
-operación antes de escribir.
+Contenido antes y después de las marcas pertenece al proyecto y se conserva byte
+a byte, incluidos espacios finales y saltos de línea. En POSIX también se conserva
+el modo del archivo. Una marca faltante, duplicada o desordenada se considera
+corrupción y cancela toda la operación antes de escribir.
 
 ## Estado local
 
@@ -44,8 +45,9 @@ operación antes de escribir.
 - adaptadores activos;
 - destinos y hash esperado de cada bloque.
 
-Puede versionarse para compartir la misma integración con el equipo. No contiene
-credenciales, rutas personales ni datos sensibles.
+Puede versionarse para compartir la misma integración con el equipo. Debe ser un
+objeto JSON válido y tipado. No contiene credenciales, rutas personales ni datos
+sensibles.
 
 ## Flujo recomendado
 

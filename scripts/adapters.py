@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import stat
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
@@ -120,7 +121,7 @@ Este proyecto está gobernado por Humanio CEO Engineering Framework.
 
 def managed_block(target: Path, adapters: list[str]) -> str:
     body = instruction_body(target, adapters).rstrip()
-    return f"{START_MARKER}\n{body}\n{END_MARKER}"
+    return f"{START_MARKER}\n{body}\n{END_MARKER}\n"
 
 
 def marker_bounds(content: str, path: Path) -> tuple[int, int] | None:
@@ -137,14 +138,17 @@ def marker_bounds(content: str, path: Path) -> tuple[int, int] | None:
     if end_start < 0:
         raise AdapterError(f"{path}: orden inválido de marcas Humanio")
     end = end_start + len(END_MARKER)
+    if content[end : end + 2] == "\r\n":
+        end += 2
+    elif content[end : end + 1] == "\n":
+        end += 1
     return start, end
 
 
 def put_block(content: str, block: str, path: Path) -> str:
     bounds = marker_bounds(content, path)
     if bounds is None:
-        prefix = content.rstrip()
-        return f"{prefix}\n\n{block}\n" if prefix else f"{block}\n"
+        return f"{content}{block}"
     start, end = bounds
     return f"{content[:start]}{block}{content[end:]}"
 
@@ -154,13 +158,7 @@ def remove_block(content: str, path: Path) -> str:
     if bounds is None:
         return content
     start, end = bounds
-    before = content[:start].rstrip()
-    after = content[end:].lstrip()
-    if before and after:
-        return f"{before}\n\n{after}"
-    if before:
-        return f"{before}\n"
-    return after
+    return f"{content[:start]}{content[end:]}"
 
 
 def target_map(adapters: Iterable[str]) -> dict[Path, list[str]]:
@@ -211,6 +209,8 @@ def load_state(root: Path, required: bool = False) -> dict[str, object]:
         data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
         raise AdapterError(f"estado de integración inválido: {error}") from error
+    if not isinstance(data, dict):
+        raise AdapterError("estado de integración inválido: se esperaba un objeto JSON")
     adapters = data.get("adapters")
     targets = data.get("targets")
     if (
@@ -249,6 +249,7 @@ def read_target(path: Path) -> str:
 
 def atomic_write(path: Path, content: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    mode = stat.S_IMODE(path.stat().st_mode) if path.exists() else 0o644
     descriptor, temporary_name = tempfile.mkstemp(
         prefix=f".{path.name}.humanio-", dir=path.parent
     )
@@ -256,6 +257,7 @@ def atomic_write(path: Path, content: str) -> None:
     try:
         with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as stream:
             stream.write(content)
+        temporary.chmod(mode)
         temporary.replace(path)
     finally:
         temporary.unlink(missing_ok=True)

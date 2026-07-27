@@ -21,8 +21,9 @@ integran mediante adaptadores desacoplados.
 - Cubre: PRD-FR-002, PRD-NFR-001, PRD-NFR-002.
 - Entradas: árbol validado, prefijo, directorio de binarios y modo de actualización.
 - Salidas: copia preparada del runtime y lanzadores `humanio` o `humanio.cmd`.
-- Invariantes: no reemplaza un lanzador ajeno, prepara la copia antes de sustituir
-  la vigente y permite desinstalación explícita.
+- Invariantes: no reemplaza un lanzador ni temporal ajenos, fija el intérprete
+  validado, prepara la copia antes de sustituir la vigente, revierte instalaciones
+  iniciales incompletas y permite desinstalación explícita.
 
 ### SDD-CMP-003
 
@@ -42,7 +43,8 @@ integran mediante adaptadores desacoplados.
 - Modelos: `humanio.yaml` con schema versionado y
   `.humanio/integrations.json` con adaptadores y destinos administrados.
 - Invariantes: versiones sincronizadas, IDs únicos, referencias definidas,
-  marcas completas, escrituras atómicas y ausencia de sobrescritura silenciosa.
+  marcas completas, estado JSON tipado, permisos preservados, contenido ajeno
+  byte a byte, escrituras atómicas y ausencia de sobrescritura silenciosa.
 
 ## Estados y transiciones
 

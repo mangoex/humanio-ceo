@@ -41,24 +41,25 @@
 
 - Cubre: PRD-FR-002, PRD-NFR-002, BDD-SC-002.
 - Ejecutable: `PortableCliTests.test_isolated_cli_install_update_and_uninstall`.
-- Aserciones: el lanzador aislado ejecuta `doctor`, rechaza una reinstalación
-  implícita y permite actualización y desinstalación explícitas.
+- Aserciones: el lanzador usa el intérprete validado y ejecuta `doctor`; rechaza
+  una reinstalación implícita; no reemplaza temporales ajenos; revierte fallos
+  iniciales; y permite actualización y desinstalación explícitas.
 - Estado: passed.
 
 ## TDD-TC-007
 
 - Cubre: PRD-FR-003, PRD-NFR-002, BDD-SC-003, BDD-SC-004.
 - Ejecutable: `AdapterIntegrationTests.test_integrate_sync_and_uninstall_preserve_user_content`.
-- Aserciones: los seis adaptadores son idempotentes, conservan contenido ajeno,
-  sincronizan sus bloques y se desinstalan selectivamente.
+- Aserciones: los seis adaptadores son idempotentes, conservan contenido ajeno
+  byte a byte y permisos POSIX, sincronizan sus bloques y se desinstalan selectivamente.
 - Estado: passed.
 
 ## TDD-TC-008
 
 - Cubre: PRD-FR-003, PRD-NFR-002, BDD-SC-005.
 - Ejecutable: `AdapterIntegrationTests.test_malformed_markers_abort_without_writes`.
-- Aserciones: una marca incompleta cancela la operación y no crea ni modifica
-  ningún otro destino.
+- Aserciones: una marca incompleta, estado JSON no-objeto o symlink de destino
+  cancela la operación con error controlado y no crea ni modifica destinos ajenos.
 - Estado: passed.
 
 ## TDD-TC-009

@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import json
 import os
+import importlib.util
+import stat
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +17,18 @@ CLI = ROOT / "scripts/humanio.py"
 INSTALL_CLI = ROOT / "scripts/install_cli.py"
 START_MARKER = "<!-- humanio-ceo:managed:start -->"
 END_MARKER = "<!-- humanio-ceo:managed:end -->"
+
+
+def load_installer_module():
+    scripts = str(ROOT / "scripts")
+    if scripts not in sys.path:
+        sys.path.insert(0, scripts)
+    spec = importlib.util.spec_from_file_location("install_cli_under_test", INSTALL_CLI)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("No se pudo cargar install_cli.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 class CliTestCase(unittest.TestCase):
@@ -75,6 +90,10 @@ class PortableCliTests(CliTestCase):
             )
             launcher = bin_dir / ("humanio.cmd" if os.name == "nt" else "humanio")
             self.assertTrue(launcher.is_file())
+            if os.name != "nt":
+                launcher_text = launcher.read_text(encoding="utf-8")
+                self.assertTrue(launcher_text.startswith("#!/bin/sh\n"))
+                self.assertIn(sys.executable, launcher_text)
             command = (
                 ["cmd", "/c", str(launcher), "doctor"]
                 if os.name == "nt"
@@ -147,6 +166,41 @@ class PortableCliTests(CliTestCase):
             self.assertEqual(remove_rejected.returncode, 1)
             self.assertTrue(foreign.is_file())
 
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            destination = root / "runtime"
+            bin_dir = root / "bin"
+            bin_dir.mkdir()
+            foreign_temporary = bin_dir / ".humanio.tmp"
+            foreign_temporary.write_text("owned by user\n", encoding="utf-8")
+            installed = self.run_script(
+                INSTALL_CLI,
+                "--install-root",
+                destination,
+                "--bin-dir",
+                bin_dir,
+            )
+            self.assertEqual(installed.returncode, 0, installed.stdout + installed.stderr)
+            self.assertEqual(
+                foreign_temporary.read_text(encoding="utf-8"), "owned by user\n"
+            )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            destination = root / "runtime"
+            launcher = root / "bin/humanio"
+            launcher.parent.mkdir()
+            installer = load_installer_module()
+            with mock.patch.object(
+                installer,
+                "write_launcher_atomic",
+                side_effect=OSError("simulated launcher failure"),
+            ):
+                with self.assertRaises(OSError):
+                    installer.install(destination, launcher, update=False, dry_run=False)
+            self.assertFalse(destination.exists())
+            self.assertFalse(launcher.exists())
+
 
 class AdapterIntegrationTests(CliTestCase):
     def test_integrate_sync_and_uninstall_preserve_user_content(self) -> None:
@@ -157,7 +211,10 @@ class AdapterIntegrationTests(CliTestCase):
             readme = workspace / "README.md"
             agents = workspace / "AGENTS.md"
             readme.write_text("# Producto existente\n", encoding="utf-8")
-            agents.write_text("# Reglas del equipo\n", encoding="utf-8")
+            original_agents = "# Reglas del equipo con corte  \n\n"
+            agents.write_text(original_agents, encoding="utf-8")
+            if os.name != "nt":
+                agents.chmod(0o640)
             initialized = self.initialize(workspace, adopt=True)
             self.assertEqual(
                 initialized.returncode,
@@ -165,7 +222,7 @@ class AdapterIntegrationTests(CliTestCase):
                 initialized.stdout + initialized.stderr,
             )
             self.assertEqual(readme.read_text(encoding="utf-8"), "# Producto existente\n")
-            self.assertEqual(agents.read_text(encoding="utf-8"), "# Reglas del equipo\n")
+            self.assertEqual(agents.read_text(encoding="utf-8"), original_agents)
 
             integrated = self.run_script(
                 CLI, "install", workspace, "--adapter", "all"
@@ -183,6 +240,8 @@ class AdapterIntegrationTests(CliTestCase):
             )
             self.assertIn("# Reglas del equipo", agents.read_text(encoding="utf-8"))
             self.assertEqual(agents.read_text(encoding="utf-8").count(START_MARKER), 1)
+            if os.name != "nt":
+                self.assertEqual(stat.S_IMODE(agents.stat().st_mode), 0o640)
 
             claude = workspace / "CLAUDE.md"
             claude.write_text(
@@ -210,7 +269,7 @@ class AdapterIntegrationTests(CliTestCase):
 
             removed = self.run_script(CLI, "uninstall", workspace)
             self.assertEqual(removed.returncode, 0, removed.stdout + removed.stderr)
-            self.assertEqual(agents.read_text(encoding="utf-8"), "# Reglas del equipo\n")
+            self.assertEqual(agents.read_text(encoding="utf-8"), original_agents)
             self.assertEqual(readme.read_text(encoding="utf-8"), "# Producto existente\n")
             self.assertIn("# Nota del usuario", claude.read_text(encoding="utf-8"))
             self.assertNotIn(START_MARKER, claude.read_text(encoding="utf-8"))
@@ -265,6 +324,38 @@ class AdapterIntegrationTests(CliTestCase):
             self.assertIn("enlaces simbólicos", symlinked.stderr)
             self.assertFalse((external / "copilot-instructions.md").exists())
 
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            workspace = root / "project"
+            workspace.mkdir()
+            outside = root / "outside-readme.md"
+            try:
+                (workspace / "README.md").symlink_to(outside)
+            except OSError:
+                self.skipTest("el sistema no permite crear enlaces simbólicos")
+            adopted = self.initialize(workspace, adopt=True)
+            self.assertEqual(adopted.returncode, 3)
+            self.assertIn("enlaces simbólicos", adopted.stderr)
+            self.assertFalse(outside.exists())
+            self.assertFalse((workspace / "humanio.yaml").exists())
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            workspace = root / "project"
+            workspace.mkdir()
+            outside_docs = root / "outside-docs"
+            outside_docs.mkdir()
+            try:
+                (workspace / "docs").symlink_to(
+                    outside_docs, target_is_directory=True
+                )
+            except OSError:
+                self.skipTest("el sistema no permite crear enlaces simbólicos")
+            adopted = self.initialize(workspace, adopt=True)
+            self.assertEqual(adopted.returncode, 3)
+            self.assertIn("enlaces simbólicos", adopted.stderr)
+            self.assertEqual(list(outside_docs.iterdir()), [])
+
     def test_auto_detection_and_dry_run(self) -> None:
         """TDD-TC-009: auto uses explicit signals and dry-run performs no writes."""
         with tempfile.TemporaryDirectory() as temporary:
@@ -315,6 +406,13 @@ class AdapterIntegrationTests(CliTestCase):
             repaired = self.run_script(CLI, "status", workspace, "--json")
             self.assertEqual(repaired.returncode, 0)
             self.assertTrue(json.loads(repaired.stdout)["healthy"])
+            (workspace / ".humanio/integrations.json").write_text(
+                "[]\n", encoding="utf-8"
+            )
+            invalid = self.run_script(CLI, "status", workspace)
+            self.assertEqual(invalid.returncode, 1)
+            self.assertIn("se esperaba un objeto JSON", invalid.stderr)
+            self.assertNotIn("Traceback", invalid.stderr)
 
 
 if __name__ == "__main__":

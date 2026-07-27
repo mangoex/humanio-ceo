@@ -80,12 +80,38 @@ def render(content: str, project: str, profile: str, risk: str) -> str:
     )
 
 
+def symlink_destinations(output: Path, destinations: list[str]) -> list[str]:
+    unsafe: set[str] = set()
+    for destination in destinations:
+        relative = Path(destination)
+        target = output / relative
+        if target.is_symlink():
+            unsafe.add(relative.as_posix())
+        parent = output
+        for part in relative.parts[:-1]:
+            parent = parent / part
+            if parent.is_symlink():
+                unsafe.add(parent.relative_to(output).as_posix())
+                break
+    return sorted(unsafe)
+
+
 def main() -> int:
     args = parse_args()
     plugin_root = Path(__file__).resolve().parents[1]
     templates_root = plugin_root / "templates"
     output = args.output.resolve()
     file_map = selected_files(args.profile)
+    symlinks = symlink_destinations(output, list(file_map.values()))
+    if symlinks:
+        print(
+            "ERROR: la inicialización se canceló; no se escriben destinos que son "
+            "enlaces simbólicos:",
+            file=sys.stderr,
+        )
+        for path in symlinks:
+            print(f"  - {path}", file=sys.stderr)
+        return 3
     preserved = [
         destination
         for destination in ADOPTABLE_ROOT_FILES
