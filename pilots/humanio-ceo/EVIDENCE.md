@@ -26,7 +26,7 @@ Resultado: `PBD-T-001` aprobado en cinco casos, incluidos gates fallidos, aproba
 
 ## Validadores oficiales
 
-Ejecutados el 2026-07-26 sobre los artefactos de la versión `1.0.5`:
+Ejecutados el 2026-07-26 sobre los artefactos de la versión `1.0.6`:
 
 ```bash
 python3 /root/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py .
@@ -35,11 +35,11 @@ for skill in skills/*; do
 done
 ```
 
-Resultados, hashes de validadores y hashes de los siete artefactos validados:
+Resultados, hashes de validadores y hashes del contrato, manifest, archivos distribuidos de las seis skills y sus dependencias documentales canónicas:
 
 `evidence/official-validation.json`
 
-CI ejecuta `scripts/verify_official_evidence.py`; cualquier cambio al manifest o a una skill invalida la aprobación registrada.
+CI ejecuta `scripts/verify_official_evidence.py`; cualquier cambio al contrato, manifest, archivo de una skill o dependencia documental canónica invalida la aprobación registrada.
 
 ## Release
 

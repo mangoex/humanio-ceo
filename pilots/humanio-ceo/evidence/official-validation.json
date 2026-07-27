@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "framework_version": "1.0.5",
-  "validated_at_utc": "2026-07-27T00:11:39Z",
+  "framework_version": "1.0.6",
+  "validated_at_utc": "2026-07-27T00:47:55Z",
   "plugin_result": "passed",
   "plugin_output": "Plugin validation passed",
   "skill_results": {
@@ -18,7 +18,19 @@
     "skill-creator/quick_validate.py": "6cc9dc3199c935916cf6f73fcbbbb0e3bb1b58c8f5109fefa499978908164f51"
   },
   "artifact_sha256": {
-    ".codex-plugin/plugin.json": "4a2890b47a945d69df6c79ea4e9cdc0d76c55c11971e9f902e08f55f672d42ec",
+    ".codex-plugin/plugin.json": "7ee058645d16ba85e13cd5f58b9881335258eed8d645417e9e3430f6bae801a4",
+    ".codex-plugin/validation-contract.json": "6efc9af16ce233b353a5edd2d793d2db61e03f542aefbd1cf6a664cf121ea3ef",
+    "docs/framework/00-CONSTITUTION.md": "5e99547d678e9dd1ae03bd0fc26e6e90c320fcaacd3f6614e96e9373a71f4ba6",
+    "docs/framework/01-ARCHITECTURE.md": "3eb9792568f99fa5567e576a0b3f5c60bfa98aae11d486e93f7e824e1bfc0c06",
+    "docs/framework/02-AUTHORITY-MODEL.md": "5e1c1ad98e093150bce40baaa65b4727c70c9bf13cee2136821fbdc264494dde",
+    "docs/framework/03-RISK-MODEL.md": "53fdc470946b8d14e3dd276674bf7ae3fe6818c636c146ba055f7624fb389545",
+    "docs/framework/04-QUALITY-GATES.md": "374687623d5bbffa5a80c4913ceceba42b8bc8dc41b7043c7f175d0ef8dbf915",
+    "docs/framework/05-ARTIFACT-STANDARD.md": "d42163349a22ed6eb50177838e92c644ab987fc7f695f9f1546642c6da0ca2a9",
+    "docs/framework/06-DEFINITION-OF-DONE.md": "cf427d6ca4ac2f96084f56f3470520c87154ef651d9c19d8db50fa66872dc2da",
+    "docs/framework/07-MATURITY-MODEL.md": "d1aae3a9342e91112acf94e2a683de737946bc9d8365088c9f08fe238473605c",
+    "docs/profiles/conversational.md": "d1ca15dcb88434b79eebf0363003e35115ffd06ceae9ea357305fed4ff106b8a",
+    "docs/profiles/hybrid.md": "513d9f5cdd6be0d2027e7778bfcea84f9926e1b84adeda885dbbb5fdc4cc000c",
+    "docs/profiles/software.md": "2313170687d91eb9de3b74300f730a03fe02fdee1334059b35f52a3a2ef87032",
     "skills/ceo-discovery/SKILL.md": "8ce577d7afbdb954fc3cb03b387ae7e41e180b81655c53aafc5dd787fadc28b5",
     "skills/humanio-project-engineer/SKILL.md": "0e91c5cb9b455d928bc0f1c3a41c376d231360e4672fd774ab05e10b169f35f6",
     "skills/pbd-governance/SKILL.md": "7a7c09d9301d7ab050a1b27fb5705eece9bc5751f5ec365d7e3276cbdbd4bfca",

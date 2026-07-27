@@ -5,7 +5,7 @@
 Aplicar el marco a su propio desarrollo, empaquetado e instalación como plugin.
 
 - Repositorio: `mangoex/humanio-ceo`.
-- Versión evaluada: `1.0.5`.
+- Versión evaluada: `1.0.6`.
 - Perfil: híbrido, porque combina herramientas deterministas y skills de agentes.
 - Riesgo: R1, porque el plugin produce artefactos y cambios locales pero no despliega ni ejecuta transacciones externas por sí mismo.
 
@@ -24,14 +24,14 @@ Aplicar el marco a su propio desarrollo, empaquetado e instalación como plugin.
 - Protección contra sobrescritura comprobada.
 - `pilots/humanio-ceo` aprobó validación estricta con cero errores y cero advertencias.
 - La evaluación ejecutable `PBD-T-001` impide emitir `READY` con gates o aprobaciones fallidas.
-- La evidencia oficial está ligada por hashes al manifest y a las seis skills.
+- La evidencia oficial está ligada por hashes al contrato, manifest, archivos de las seis skills y sus dependencias documentales canónicas.
 - El paquete incluye workspace, evidencia, pruebas, casos de evaluación y workflow.
 
 ## Hallazgos
 
 - La estructura y el CLI alcanzan estabilidad 1.x.
 - CI hace verificable el gate técnico en cada pull request.
-- El empaquetado excluye fixtures y metadatos de desarrollo.
+- El empaquetado incluye intencionalmente los fixtures versionados para reproducir la suite distribuida y excluye cachés y metadatos Git.
 - El repositorio no contiene una licencia.
 
 ## Decisión

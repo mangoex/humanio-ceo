@@ -10,7 +10,7 @@ Plugin y marco metodológico de Humanio para diagnosticar, especificar, desarrol
 
 ## Estado
 
-Versión `1.0.5`: marco estable, instalable, verificable y reutilizable.
+Versión `1.0.6`: marco estable, instalable, verificable y reutilizable.
 
 El plugin incorpora:
 

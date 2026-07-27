@@ -2,6 +2,19 @@
 
 Todos los cambios relevantes del framework se documentan aquí.
 
+## [1.0.6] - 2026-07-26
+
+### Fixed
+
+- Un contrato canónico versiona el inventario de skills, sus dependencias documentales y los escenarios obligatorios de readiness.
+- La evidencia oficial cubre todos los archivos distribuidos de cada skill y sus dependencias; metadata oculta no canónica tampoco se empaqueta.
+- El gate `PBD-T-001` rechaza conjuntos de casos vacíos, incompletos, duplicados o con valores, campos o tipos alterados.
+- La evidencia de release declara y prueba que los fixtures versionados se distribuyen intencionalmente.
+
+### Added
+
+- Pruebas negativas para skills faltantes o sin validar, metadata oculta y suites de readiness incompletas, alteradas o con tipos incorrectos.
+
 ## [1.0.5] - 2026-07-26
 
 ### Fixed

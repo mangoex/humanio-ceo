@@ -11,6 +11,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+CONTRACT = ROOT / ".codex-plugin/validation-contract.json"
 
 
 def parser() -> argparse.ArgumentParser:
@@ -43,13 +44,29 @@ def run_script(name: str, arguments: list[str]) -> int:
 
 
 def doctor() -> int:
+    try:
+        contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+        required_skills = contract["required_skills"]
+        if (
+            not isinstance(required_skills, list)
+            or not required_skills
+            or not all(isinstance(name, str) and name for name in required_skills)
+        ):
+            raise ValueError("required_skills inválido")
+    except (OSError, KeyError, ValueError, json.JSONDecodeError) as error:
+        print(
+            f"Humanio CEO doctor: contrato de validación inválido: {error}",
+            file=sys.stderr,
+        )
+        return 1
     required = (
         ".codex-plugin/plugin.json",
+        ".codex-plugin/validation-contract.json",
         "docs/framework/00-CONSTITUTION.md",
         "scripts/init_project.py",
         "scripts/validate_workspace.py",
         "schemas/humanio.schema.json",
-        "skills/humanio-project-engineer/SKILL.md",
+        *(f"skills/{name}/SKILL.md" for name in required_skills),
         "templates/common/PROJECT_MANIFEST.yaml",
         "templates/conversational/01-CONSTITUTION.md",
         "templates/software/02-PRD.md",
