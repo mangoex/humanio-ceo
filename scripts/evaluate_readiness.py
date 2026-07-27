@@ -11,12 +11,47 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-REQUIRED_CASE_NAMES = {
-    "strict validation failed",
-    "tests not executed",
-    "approval missing",
-    "accepted residual condition",
-    "all gates passed",
+REQUIRED_CASES = {
+    "strict validation failed": {
+        "name": "strict validation failed",
+        "strict_exit_code": 1,
+        "tests_passed": True,
+        "required_approvals": True,
+        "accepted_conditions": False,
+        "expected": "NOT READY",
+    },
+    "tests not executed": {
+        "name": "tests not executed",
+        "strict_exit_code": 0,
+        "tests_passed": False,
+        "required_approvals": True,
+        "accepted_conditions": False,
+        "expected": "NOT READY",
+    },
+    "approval missing": {
+        "name": "approval missing",
+        "strict_exit_code": 0,
+        "tests_passed": True,
+        "required_approvals": False,
+        "accepted_conditions": False,
+        "expected": "NOT READY",
+    },
+    "accepted residual condition": {
+        "name": "accepted residual condition",
+        "strict_exit_code": 0,
+        "tests_passed": True,
+        "required_approvals": True,
+        "accepted_conditions": True,
+        "expected": "CONDITIONAL",
+    },
+    "all gates passed": {
+        "name": "all gates passed",
+        "strict_exit_code": 0,
+        "tests_passed": True,
+        "required_approvals": True,
+        "accepted_conditions": False,
+        "expected": "READY",
+    },
 }
 
 
@@ -69,16 +104,24 @@ def main() -> int:
         return 2
     case_names = [item.get("name") for item in payload]
     if (
-        len(payload) != len(REQUIRED_CASE_NAMES)
+        len(payload) != len(REQUIRED_CASES)
         or any(not isinstance(name, str) for name in case_names)
-        or set(case_names) != REQUIRED_CASE_NAMES
+        or set(case_names) != set(REQUIRED_CASES)
     ):
         print(
             "ERROR: se requiere el conjunto completo y sin duplicados de "
-            f"{len(REQUIRED_CASE_NAMES)} casos de readiness.",
+            f"{len(REQUIRED_CASES)} casos de readiness.",
             file=sys.stderr,
         )
         return 2
+    for case in payload:
+        name = case["name"]
+        if case != REQUIRED_CASES[name]:
+            print(
+                f"ERROR: el caso {name!r} no coincide con su escenario canónico.",
+                file=sys.stderr,
+            )
+            return 2
     errors = evaluate(payload)
     if errors:
         for error in errors:

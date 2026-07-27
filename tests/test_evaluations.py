@@ -25,10 +25,16 @@ class ConversationalEvaluationTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("PBD-T-001 aprobado: 5 casos", result.stdout)
         valid_cases = json.loads(CASES.read_text(encoding="utf-8"))
+        altered_cases = [dict(case) for case in valid_cases]
+        altered_cases[0].update(
+            strict_exit_code=0,
+            expected="READY",
+        )
         with tempfile.TemporaryDirectory() as temporary:
             for name, cases in (
                 ("empty", []),
                 ("incomplete", valid_cases[:-1]),
+                ("altered-semantics", altered_cases),
             ):
                 with self.subTest(name=name):
                     path = Path(temporary) / f"{name}.json"
@@ -40,9 +46,9 @@ class ConversationalEvaluationTests(unittest.TestCase):
                         check=False,
                     )
                     self.assertEqual(rejected.returncode, 2)
-                    self.assertIn(
-                        "se requiere el conjunto completo",
-                        rejected.stderr,
+                    self.assertTrue(
+                        "se requiere el conjunto completo" in rejected.stderr
+                        or "no coincide con su escenario canónico" in rejected.stderr
                     )
 
 

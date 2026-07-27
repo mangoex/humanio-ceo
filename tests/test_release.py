@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import subprocess
 import sys
@@ -14,6 +15,16 @@ ROOT = Path(__file__).resolve().parents[1]
 PACKAGE = ROOT / "scripts/package_plugin.py"
 INSTALL = ROOT / "scripts/install_plugin.py"
 VERIFY_EVIDENCE = ROOT / "scripts/verify_official_evidence.py"
+OFFICIAL_EVIDENCE = (
+    ROOT / "pilots/humanio-ceo/evidence/official-validation.json"
+)
+VERIFY_SPEC = importlib.util.spec_from_file_location(
+    "verify_official_evidence", VERIFY_EVIDENCE
+)
+if VERIFY_SPEC is None or VERIFY_SPEC.loader is None:
+    raise RuntimeError("No se pudo cargar verify_official_evidence.py")
+VERIFY_MODULE = importlib.util.module_from_spec(VERIFY_SPEC)
+VERIFY_SPEC.loader.exec_module(VERIFY_MODULE)
 
 
 class ReleaseTests(unittest.TestCase):
@@ -96,12 +107,39 @@ class ReleaseTests(unittest.TestCase):
             rejected = self.run_script(VERIFY_EVIDENCE)
             self.assertEqual(rejected.returncode, 1)
             self.assertIn(
-                "skill_results must match installed skills exactly",
+                "installed skills must match the canonical inventory exactly",
                 rejected.stderr,
             )
-            self.assertIn(
-                "artifact_sha256 must match the plugin manifest and installed skills",
-                rejected.stderr,
+        with tempfile.TemporaryDirectory() as temporary:
+            fake_root = Path(temporary)
+            fake_skills_root = fake_root / "skills"
+            fake_skills_root.mkdir()
+            for name in sorted(VERIFY_MODULE.REQUIRED_SKILLS):
+                if name != "traceability-auditor":
+                    (fake_skills_root / name).mkdir()
+            self.assertNotEqual(
+                VERIFY_MODULE.installed_skills(fake_root),
+                VERIFY_MODULE.REQUIRED_SKILLS,
+            )
+            payload = json.loads(
+                OFFICIAL_EVIDENCE.read_text(encoding="utf-8")
+            )
+            errors = VERIFY_MODULE.verify(payload, fake_root)
+            self.assertTrue(
+                any(
+                    "installed skills must match the canonical inventory exactly"
+                    in error
+                    for error in errors
+                )
+            )
+        with tempfile.TemporaryDirectory(
+            prefix=".hidden-tooling-", dir=ROOT / "skills"
+        ):
+            hidden_ignored = self.run_script(VERIFY_EVIDENCE)
+            self.assertEqual(
+                hidden_ignored.returncode,
+                0,
+                hidden_ignored.stdout + hidden_ignored.stderr,
             )
 
 
