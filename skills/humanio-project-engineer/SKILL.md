@@ -61,6 +61,8 @@ Leer `../../docs/framework/03-RISK-MODEL.md`. Aplicar el nivel más alto activad
 
 Leer `../../docs/framework/02-AUTHORITY-MODEL.md`. En `update`, modificar especificaciones y pruebas antes del prompt o código afectado.
 
+Solo `pbd-governance` registra la sustitución o revocación de un ADR. Las demás skills deben reportar el conflicto y detener la propagación hasta que la transición y su aprobación queden registradas.
+
 ## Calidad
 
 Leer `../../docs/framework/04-QUALITY-GATES.md`. No declarar pruebas aprobadas sin evidencia de ejecución.

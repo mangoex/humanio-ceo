@@ -159,9 +159,35 @@ class FrameworkFlowTests(unittest.TestCase):
         authority = (ROOT / "docs/framework/02-AUTHORITY-MODEL.md").read_text(
             encoding="utf-8"
         )
+        self.assertIn(
+            "1. Constitución.\n2. ADR vigentes y demás decisiones confirmadas.",
+            authority,
+        )
         self.assertLess(
             authority.index("ADR vigentes y demás decisiones confirmadas"),
             authority.index("PRD y reglas de negocio"),
+        )
+        self.assertIn(
+            "Reemplazar o revocar explícitamente la decisión o ADR aplicable",
+            authority,
+        )
+        specification = (
+            ROOT / "skills/software-specification/SKILL.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            "Delegar en `pbd-governance` toda sustitución o revocación de ADR",
+            specification,
+        )
+        self.assertIn(
+            "no cambia por sí misma el estado de un ADR",
+            specification,
+        )
+        governance = (ROOT / "skills/pbd-governance/SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(
+            "registrar explícitamente el estado anterior como reemplazado o revocado",
+            governance,
         )
         agents_paths = (
             ROOT / "templates/software/AGENTS.md",

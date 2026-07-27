@@ -2,7 +2,7 @@
 
 ## Jerarquía general
 
-1. Constitución y decisiones confirmadas.
+1. Constitución.
 2. ADR vigentes y demás decisiones confirmadas.
 3. PRD y reglas de negocio.
 4. Blueprint, Behavior Specs y SDD.
@@ -35,7 +35,7 @@ El prompt conserva la instrucción de consulta y el comportamiento de contingenc
 2. Formular el cambio como comportamiento observable.
 3. Identificar fuente de autoridad e IDs afectados.
 4. Resolver contradicciones.
-5. Actualizar o reemplazar la decisión o ADR aplicable.
+5. Reemplazar o revocar explícitamente la decisión o ADR aplicable, registrando su cambio de estado y la decisión sucesora antes de continuar.
 6. Actualizar requisitos o reglas.
 7. Actualizar diseño.
 8. Actualizar BDD, TDD o evaluaciones.

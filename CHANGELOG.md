@@ -2,6 +2,15 @@
 
 Todos los cambios relevantes del framework se documentan aquí.
 
+## [1.0.5] - 2026-07-26
+
+### Fixed
+
+- La Constitución ocupa por sí sola el nivel superior de autoridad.
+- Toda sustitución o revocación de ADR exige registrar el cambio de estado y la decisión sucesora.
+- `software-specification` detecta conflictos de ADR y delega su transición a `pbd-governance`.
+- La prueba de regresión verifica jerarquía, transición explícita y separación de responsabilidades.
+
 ## [1.0.4] - 2026-07-26
 
 ### Fixed

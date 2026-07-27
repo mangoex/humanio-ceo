@@ -14,8 +14,9 @@ Gobernar comportamiento y decisiones mediante reglas explícitas, versionadas y 
 3. Asignar o conservar IDs estables.
 4. Definir regla, motivo, alcance, excepción y control.
 5. Resolver contradicciones desde la fuente de mayor autoridad.
-6. Propagar el cambio hacia especificaciones, escenarios, pruebas y compilados.
-7. Registrar decisión, impacto y aprobación requerida.
+6. Si cambia un ADR, registrar explícitamente el estado anterior como reemplazado o revocado, la decisión sucesora, el impacto y la aprobación requerida.
+7. Propagar el cambio hacia especificaciones, escenarios, pruebas y compilados.
+8. Registrar la evidencia de la transición y los artefactos afectados.
 
 ## Controles
 

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "framework_version": "1.0.4",
-  "validated_at_utc": "2026-07-26T23:31:33Z",
+  "framework_version": "1.0.5",
+  "validated_at_utc": "2026-07-27T00:11:39Z",
   "plugin_result": "passed",
   "plugin_output": "Plugin validation passed",
   "skill_results": {
@@ -18,12 +18,12 @@
     "skill-creator/quick_validate.py": "6cc9dc3199c935916cf6f73fcbbbb0e3bb1b58c8f5109fefa499978908164f51"
   },
   "artifact_sha256": {
-    ".codex-plugin/plugin.json": "c4d4e4034eb448b82f9c8fa0d8f5c5fd8f79488f759202d018f3a297ef0dc04d",
+    ".codex-plugin/plugin.json": "4a2890b47a945d69df6c79ea4e9cdc0d76c55c11971e9f902e08f55f672d42ec",
     "skills/ceo-discovery/SKILL.md": "8ce577d7afbdb954fc3cb03b387ae7e41e180b81655c53aafc5dd787fadc28b5",
-    "skills/humanio-project-engineer/SKILL.md": "e076d71bab0679d0ae2c677eec247d855707dee6715a0f758f6e633b37d7c1b1",
-    "skills/pbd-governance/SKILL.md": "125fb922d2a4c588342e24dbcb6f3d5e3a1699e3da400dd57a05c03c73c0f124",
+    "skills/humanio-project-engineer/SKILL.md": "0e91c5cb9b455d928bc0f1c3a41c376d231360e4672fd774ab05e10b169f35f6",
+    "skills/pbd-governance/SKILL.md": "7a7c09d9301d7ab050a1b27fb5705eece9bc5751f5ec365d7e3276cbdbd4bfca",
     "skills/production-readiness/SKILL.md": "bb5bdc3d745065ebe684070808142a6a4df070d31ea154a9a3ef74a366bcd60d",
-    "skills/software-specification/SKILL.md": "b6eea2b966140d46a7fb9c3e00071da61b582b2f981b0f8f6589ef65bdbeeacd",
+    "skills/software-specification/SKILL.md": "f6ac759986d8a9632bbca8f42570432eddce5ef72e2e3ead0cbdd173fdd8cb3b",
     "skills/traceability-auditor/SKILL.md": "e7499d6567bdc2801f114db4894df8fde8734701ff359083c4371a0fc9eda9b0"
   }
 }
