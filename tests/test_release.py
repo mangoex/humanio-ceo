@@ -63,6 +63,10 @@ class ReleaseTests(unittest.TestCase):
                 "humanio-ceo/tests/fixtures/software/humanio.yaml", names
             )
             self.assertIn("humanio-ceo/.github/workflows/validate.yml", names)
+            self.assertIn("humanio-ceo/scripts/install_cli.py", names)
+            self.assertIn("humanio-ceo/scripts/adapters.py", names)
+            self.assertIn("humanio-ceo/docs/ADAPTERS.md", names)
+            self.assertIn("humanio-ceo/tests/test_portability.py", names)
             self.assertFalse(any("__pycache__" in name for name in names))
             hidden_name = ".hidden-unvalidated-skill"
             hidden_root = ROOT / "skills" / hidden_name

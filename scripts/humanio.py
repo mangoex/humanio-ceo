@@ -9,6 +9,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import adapters
+
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / ".codex-plugin/validation-contract.json"
@@ -25,13 +27,58 @@ def parser() -> argparse.ArgumentParser:
     )
     init.add_argument("--risk", required=True, choices=("R0", "R1", "R2", "R3"))
     init.add_argument("--output", required=True, type=Path)
+    init.add_argument(
+        "--adopt",
+        action="store_true",
+        help="Preserve existing README.md and AGENTS.md while adopting a repository.",
+    )
 
     validate = commands.add_parser("validate", help="Validate a project workspace.")
     validate.add_argument("workspace", nargs="?", type=Path, default=Path.cwd())
     validate.add_argument("--strict", action="store_true")
     validate.add_argument("--json", action="store_true")
 
-    commands.add_parser("doctor", help="Check the plugin installation.")
+    commands.add_parser("doctor", help="Check the framework installation.")
+
+    detect = commands.add_parser(
+        "detect", help="Detect explicit IDE and agent signals in a project."
+    )
+    detect.add_argument("workspace", nargs="?", type=Path, default=Path.cwd())
+    detect.add_argument("--json", action="store_true")
+
+    for name, help_text in (
+        ("install", "Install one or more project adapters."),
+        ("integrate", "Alias for project adapter installation."),
+    ):
+        integrate = commands.add_parser(name, help=help_text)
+        integrate.add_argument("workspace", nargs="?", type=Path, default=Path.cwd())
+        integrate.add_argument(
+            "--adapter",
+            action="append",
+            choices=("auto", "all", *adapters.ADAPTERS),
+            default=[],
+        )
+        integrate.add_argument("--dry-run", action="store_true")
+
+    sync = commands.add_parser("sync", help="Regenerate installed adapter blocks.")
+    sync.add_argument("workspace", nargs="?", type=Path, default=Path.cwd())
+    sync.add_argument("--dry-run", action="store_true")
+
+    uninstall = commands.add_parser(
+        "uninstall", help="Remove project adapters without deleting user content."
+    )
+    uninstall.add_argument("workspace", nargs="?", type=Path, default=Path.cwd())
+    uninstall.add_argument(
+        "--adapter",
+        action="append",
+        choices=("all", *adapters.ADAPTERS),
+        default=[],
+    )
+    uninstall.add_argument("--dry-run", action="store_true")
+
+    status = commands.add_parser("status", help="Inspect installed adapters and drift.")
+    status.add_argument("workspace", nargs="?", type=Path, default=Path.cwd())
+    status.add_argument("--json", action="store_true")
     return cli
 
 
@@ -64,6 +111,8 @@ def doctor() -> int:
         ".codex-plugin/validation-contract.json",
         "docs/framework/00-CONSTITUTION.md",
         "scripts/init_project.py",
+        "scripts/install_cli.py",
+        "scripts/adapters.py",
         "scripts/validate_workspace.py",
         "schemas/humanio.schema.json",
         *(f"skills/{name}/SKILL.md" for name in required_skills),
@@ -95,24 +144,90 @@ def doctor() -> int:
     return 0
 
 
+def print_changes(
+    installed: list[str], changes: list[adapters.Change], dry_run: bool
+) -> None:
+    print(f"Adaptadores activos: {', '.join(installed) if installed else 'ninguno'}")
+    prefix = "DRY-RUN" if dry_run else "OK"
+    if not changes:
+        print(f"{prefix}: sin cambios")
+    for change in changes:
+        print(f"{prefix}: {change.action} {change.path.as_posix()}")
+
+
+def adapter_command(args: argparse.Namespace) -> int:
+    try:
+        if args.command in ("install", "integrate"):
+            active, changes = adapters.install(
+                args.workspace, args.adapter, args.dry_run
+            )
+        elif args.command == "sync":
+            active, changes = adapters.sync(args.workspace, args.dry_run)
+        else:
+            active, changes = adapters.uninstall(
+                args.workspace, args.adapter, args.dry_run
+            )
+    except (OSError, adapters.AdapterError) as error:
+        print(f"ERROR: {error}", file=sys.stderr)
+        return 1
+    print_changes(active, changes, args.dry_run)
+    return 0
+
+
 def main() -> int:
     args = parser().parse_args()
     if args.command == "doctor":
         return doctor()
+    if args.command == "detect":
+        try:
+            found = adapters.detect(args.workspace)
+        except adapters.AdapterError as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        if args.json:
+            print(
+                json.dumps(
+                    {"workspace": str(args.workspace.resolve()), "adapters": found}
+                )
+            )
+        else:
+            print(f"Adaptadores detectados: {', '.join(found)}")
+        return 0
+    if args.command in ("install", "integrate", "sync", "uninstall"):
+        return adapter_command(args)
+    if args.command == "status":
+        try:
+            report = adapters.status(args.workspace)
+        except (OSError, adapters.AdapterError) as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
+        if args.json:
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+        else:
+            print(
+                f"Humanio adapters: {'válidos' if report['healthy'] else 'con deriva'}"
+            )
+            print(
+                "Activos: "
+                + (", ".join(report["adapters"]) if report["adapters"] else "ninguno")
+            )
+            for path, state in report["targets"].items():
+                print(f"  - {path}: {state}")
+        return 0 if report["healthy"] else 1
     if args.command == "init":
-        return run_script(
-            "init_project.py",
-            [
-                "--project",
-                args.project,
-                "--profile",
-                args.profile,
-                "--risk",
-                args.risk,
-                "--output",
-                str(args.output),
-            ],
-        )
+        arguments = [
+            "--project",
+            args.project,
+            "--profile",
+            args.profile,
+            "--risk",
+            args.risk,
+            "--output",
+            str(args.output),
+        ]
+        if args.adopt:
+            arguments.append("--adopt")
+        return run_script("init_project.py", arguments)
     arguments = [str(args.workspace)]
     if args.strict:
         arguments.append("--strict")

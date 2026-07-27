@@ -10,7 +10,7 @@ Plugin y marco metodológico de Humanio para diagnosticar, especificar, desarrol
 
 ## Estado
 
-Versión `1.0.6`: marco estable, instalable, verificable y reutilizable.
+Versión `1.1.0`: marco portable, instalable, verificable y reutilizable.
 
 El plugin incorpora:
 
@@ -31,6 +31,8 @@ El plugin incorpora:
 - Validación automática en pull requests.
 - Empaquetado reproducible.
 - Instalador seguro para marketplace personal de Codex.
+- Instalador de CLI portable para Windows, macOS y Linux.
+- Adaptadores reversibles para Codex, Cursor, Claude Code, GitHub Copilot y Gemini.
 - Guías de adopción, operación y releases.
 
 ## Principio central
@@ -68,6 +70,17 @@ python3 scripts/humanio.py init \
 
 El inicializador inspecciona todos los destinos antes de escribir y se detiene si alguno ya existe.
 
+Para adoptar un repositorio existente conservando su `README.md` y `AGENTS.md`:
+
+```bash
+humanio init \
+  --profile hybrid \
+  --risk R2 \
+  --project "Mi proyecto" \
+  --output /ruta/al/proyecto \
+  --adopt
+```
+
 ## Validar un proyecto
 
 ```bash
@@ -79,7 +92,30 @@ La validación normal permite una línea base con pendientes visibles. La valida
 
 La referencia completa del comando está en [docs/CLI.md](./docs/CLI.md).
 
-## Instalar como plugin de Codex
+## Instalar el CLI portable
+
+Desde una copia descargada o clonada:
+
+```bash
+python3 scripts/install_cli.py
+humanio doctor
+```
+
+El comando queda disponible para las terminales integradas de cualquier IDE. La
+instalación no añade extensiones propietarias.
+
+Integrar el proyecto actual:
+
+```bash
+humanio detect .
+humanio install . --adapter auto
+humanio status .
+```
+
+Consultar [instalación](./docs/INSTALLATION.md) y
+[compatibilidad de adaptadores](./docs/ADAPTERS.md).
+
+## Instalar además como plugin de Codex
 
 ```bash
 python3 scripts/install_plugin.py

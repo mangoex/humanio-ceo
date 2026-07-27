@@ -28,3 +28,17 @@ jobs:
         run: python3 scripts/evaluate_readiness.py
       - name: Validate governed self-pilot
         run: python3 scripts/humanio.py validate pilots/humanio-ceo --strict
+
+  portability:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test portable CLI and adapters
+        run: python -m unittest tests.test_portability -v

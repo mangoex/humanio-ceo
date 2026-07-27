@@ -2,6 +2,27 @@
 
 Todos los cambios relevantes del framework se documentan aquí.
 
+## [1.1.0] - 2026-07-26
+
+### Added
+
+- Instalador global y actualizable del CLI `humanio` para Windows, macOS y Linux.
+- Adaptadores `generic`, `codex`, `cursor`, `claude`, `copilot` y `gemini`.
+- Comandos `detect`, `install`, `integrate`, `sync`, `status` y `uninstall`.
+- Estado local auditable en `.humanio/integrations.json`.
+- Modo `--adopt` para preservar `README.md` y `AGENTS.md` de repositorios existentes.
+- Pruebas de portabilidad en Ubuntu, macOS y Windows.
+
+### Security
+
+- Los adaptadores rechazan enlaces simbólicos y marcas administradas incompletas.
+- Las operaciones realizan preflight completo, escrituras atómicas y reversión ante fallos.
+- La desinstalación elimina únicamente bloques y lanzadores identificados como Humanio.
+- Los reemplazos conservan permisos y contenido ajeno byte a byte.
+- El lanzador Unix fija el intérprete validado y usa temporales exclusivos.
+- Una instalación inicial incompleta revierte también el runtime recién creado.
+- La adopción rechaza symlinks rotos y el estado exige un objeto JSON válido.
+
 ## [1.0.6] - 2026-07-26
 
 ### Fixed
